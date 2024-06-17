@@ -1,0 +1,18 @@
+.content {
+  display: flex;
+  justify-content: center;
+}
+
+.team-details {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.team-info {
+  flex: 2;
+}
+
+.team-image {
+  flex: 0.8;
+}
