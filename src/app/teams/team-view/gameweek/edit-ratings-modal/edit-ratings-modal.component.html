@@ -17,7 +17,7 @@
       </button>
     </div>
     <!-- Modal body -->
-    <form [formGroup]="gameWeekForm">
+    <form [formGroup]="gameWeekForm" (ngSubmit)="onSubmit(gameWeekForm)">
       <div class="p-2 md:p-3 space-y-4">
         <div formArrayName="players">
           <div *ngFor="let player of players.controls; let i = index">
@@ -31,13 +31,16 @@
                   class="bg-gray-50 border border-gray-300 text-gray-900 mx-1 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-1/2 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                   <option *ngIf="player.get('name').value" [ngValue]="player.get('name').value">
                     {{player.get('name').value}}</option>
-                  <option value="dog">Dog</option>
-                  <option value="cat">Cat</option>
+                  <ng-container *ngFor="let item of playersArray">
+                    <option *ngFor="let playerName of item.players "
+                      [disabled]="playerName === player.get('name').value" [value]="playerName">
+                      {{playerName}}</option>
+                  </ng-container>
                 </select>
               </div>
               <div class="flex flex-row items-center">
                 <span>&nbsp; Rating : </span>
-                <input type="text" id="player_rating" formControlName="rating"
+                <input type="number" id="player_rating" formControlName="rating"
                   class="bg-gray-50 border border-gray-300 text-gray-900 mx-1 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-1/2 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                   placeholder="{{player.get('rating').value}}" required />
               </div>
@@ -75,7 +78,7 @@
 
       <!-- Modal footer -->
       <div class="flex items-center justify-end p-4 md:p-5 border-t border-gray-200 rounded-b dark:border-gray-600">
-        <!-- {{gameWeekForm.value | json}} -->
+        {{gameWeekForm.value | json}}
         <button data-modal-hide="ratings-modal" type="submit"
           class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
           Create</button>
