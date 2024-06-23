@@ -54,12 +54,19 @@ export class TeamViewComponent implements OnInit, AfterContentInit {
 
   getGameweekByTeam(postId: any) {
     this.gameWeeks = this.gameweekService.getGameWeek().filter(team => team.team_id === postId);
+    this.gameweekService.updatedGameweeks.subscribe(data => {
+      if (data !== null) {
+        let gameweeksData: Gameweek[] = data.filter(team => team.team_id === postId);
+        this.gameWeeks = gameweeksData;
+      }
+    })
   }
 
   clickGameweek(gameweek: any) {
     this.hideGameweek = true;
     let specificWeek = { ...this.gameWeeks[0] };
     this.gameweekService.sendSpecificWeek.next(specificWeek.weeksArray[gameweek]);
+    this.gameweekService.sendTeamId.next(this.postId);
   }
 
   deleteTeam(postId: string) {
@@ -68,5 +75,9 @@ export class TeamViewComponent implements OnInit, AfterContentInit {
         console.log(response);
       }
     )
+  }
+
+  emitForm() {
+    this.postService.formEmiiter.next(true);
   }
 }

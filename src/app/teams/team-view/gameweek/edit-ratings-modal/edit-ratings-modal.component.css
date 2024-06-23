@@ -3,5 +3,6 @@ select#player_name {
 }
 
 input#player_rating {
-  width: 2rem;
+  width: 3rem;
+  text-align: center;
 }

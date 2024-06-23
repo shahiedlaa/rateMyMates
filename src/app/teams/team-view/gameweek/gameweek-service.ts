@@ -8,9 +8,10 @@ export class GameWeekService {
 
   sendGameweek = new BehaviorSubject(null);
   sendSpecificWeek = new BehaviorSubject(null);
-  changeInGameweek = new BehaviorSubject(null);
+  updatedGameweeks = new BehaviorSubject<any>(null);
+  sendTeamId = new BehaviorSubject<any>(null);
 
-  private gameWeeks: Gameweek[] = [
+  private gameWeeks: any[] = [
     {
       team_id: '665b05f8941dee3b07d50970',
       weeksArray: [{
@@ -55,18 +56,27 @@ export class GameWeekService {
   }
 
   updateGameweek(team_id, week: number) {
-    this.sendGameweek.subscribe(players => {
+    this.sendGameweek.subscribe(response => {
+      let data = response;
+      let players = [];
+      data.players.forEach((element) => players.push(element));
       let editedWeek = {
         week: week,
-        players: players
+        players
       }
-      console.log(editedWeek)
       let extractedTeam = this.gameWeeks.filter(team => team.team_id === team_id);
       extractedTeam[0].weeksArray[extractedTeam[0].weeksArray.findIndex(el => el.week === week)] = editedWeek;
-      console.log(extractedTeam);
+      let teamIndex = this.gameWeeks.findIndex(team => team.team_id === team_id);
+
+      this.gameWeeks[teamIndex] = extractedTeam[0];
+      this.updatedGameweeks.next(this.gameWeeks);
     })
+  }
 
-
+  addPlayersToRoster(newPlayers, teamId) {
+    let extractedPlayers = this.playersArray.filter(team => team.team_id === teamId)[0];
+    console.log(extractedPlayers.players.push(...newPlayers));
+    console.log(this.playersArray);
   }
 
 }

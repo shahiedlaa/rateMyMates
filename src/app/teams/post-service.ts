@@ -3,7 +3,7 @@ import { Injectable } from "@angular/core";
 
 import { Router } from "@angular/router";
 import { initFlowbite } from "flowbite";
-import { Subject, map } from "rxjs";
+import { BehaviorSubject, Subject, map } from "rxjs";
 
 import { Post } from "./post.model";
 import { environment } from "src/environments/environment";
@@ -14,7 +14,7 @@ const BACKEND_URL = environment.apiUrl + "/posts"
 export class PostService {
   posts: Post[] = [];
   updatePosts = new Subject<{ posts: Post[], postCount: number }>()
-
+  formEmiiter = new BehaviorSubject(null);
 
   constructor(private http: HttpClient, private router: Router) { }
 

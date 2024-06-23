@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { GameWeekService } from '../gameweek/gameweek-service';
+import { PostService } from '../../post-service';
 
 @Component({
   selector: 'game-week-modal',
@@ -10,8 +11,9 @@ import { GameWeekService } from '../gameweek/gameweek-service';
 export class GameWeekModalComponent implements OnInit {
 
   @Input('teamId') teamId;
+  public editMode: boolean = false;
 
-  constructor(private formBuilder: FormBuilder, private gameweekService: GameWeekService) {
+  constructor(private formBuilder: FormBuilder, private gameweekService: GameWeekService, private postService: PostService) {
     this.gameWeekForm = this.formBuilder.group({
       players: this.formBuilder.array([], { validators: [Validators.required] })
     })
@@ -22,6 +24,11 @@ export class GameWeekModalComponent implements OnInit {
 
   ngOnInit(): void {
     this.initialGameweek = this.gameweekService.getGameWeek().filter(team => team.team_id === this.teamId);
+    this.postService.formEmiiter.subscribe((response) => {
+      if (response !== null)
+        console.log(response);
+      this.editMode = response;
+    })
   }
 
   get players(): FormArray {
@@ -46,27 +53,33 @@ export class GameWeekModalComponent implements OnInit {
     let data = this.gameWeekForm.value;
     let playersArray = [];
 
-    Object.keys(data).forEach(key => {
-      data[key].forEach(element =>
-        playersArray.push(element['player'])
-      );
-    });
+    if (this.editMode) {
+      Object.keys(data).forEach(key => {
+        data[key].forEach(element =>
+          playersArray.push(element['player'])
+        );
+      });
+      this.gameweekService.addPlayersToRoster(playersArray, this.teamId);
+    }
+    else {
+      Object.keys(data).forEach(key => {
+        data[key].forEach(element =>
+          playersArray.push(element['player'])
+        );
+      });
 
-    const copiedArray = Array.from(this.initialGameweek);
+      const copiedArray = Array.from(this.initialGameweek);
 
-    let latestWeekNumber = copiedArray[0]['weeksArray'].slice(-1)[0].week;
+      let latestWeekNumber = copiedArray[0]['weeksArray'].slice(-1)[0].week;
 
-    let gameWeek = {
-      week: latestWeekNumber + 1,
-      players: playersArray
-    };
+      let gameWeek = {
+        week: latestWeekNumber + 1,
+        players: playersArray
+      };
 
-    this.initialGameweek[0].weeksArray.push(gameWeek);
-    this.gameweekService.sendGameweek.next([...this.initialGameweek]);
-
-    console.log(this.initialGameweek);
-
+      this.initialGameweek[0].weeksArray.push(gameWeek);
+      this.gameweekService.sendGameweek.next([...this.initialGameweek]);
+    }
   }
-
 
 }
