@@ -11,7 +11,7 @@ import { PostService } from '../../post-service';
 export class GameWeekModalComponent implements OnInit {
 
   @Input('teamId') teamId;
-  public editMode: boolean = false;
+  public addPlayerMode: boolean = false;
 
   constructor(private formBuilder: FormBuilder, private gameweekService: GameWeekService, private postService: PostService) {
     this.gameWeekForm = this.formBuilder.group({
@@ -25,9 +25,12 @@ export class GameWeekModalComponent implements OnInit {
   ngOnInit(): void {
     this.initialGameweek = this.gameweekService.getGameWeek().filter(team => team.team_id === this.teamId);
     this.postService.formEmiiter.subscribe((response) => {
-      if (response !== null)
-        console.log(response);
-      this.editMode = response;
+      if (response !== null && response === 'addPlayers') {
+        this.addPlayerMode = true
+      }
+      else {
+        this.addPlayerMode = false
+      }
     })
   }
 
@@ -53,7 +56,7 @@ export class GameWeekModalComponent implements OnInit {
     let data = this.gameWeekForm.value;
     let playersArray = [];
 
-    if (this.editMode) {
+    if (this.addPlayerMode) {
       Object.keys(data).forEach(key => {
         data[key].forEach(element =>
           playersArray.push(element['player'])

@@ -77,7 +77,7 @@ export class TeamViewComponent implements OnInit, AfterContentInit {
     )
   }
 
-  emitForm() {
-    this.postService.formEmiiter.next(true);
+  emitForm(action: string) {
+    this.postService.formEmiiter.next(action);
   }
 }
