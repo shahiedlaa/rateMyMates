@@ -12,6 +12,7 @@
         <li *ngFor="let player of item.players">
           <a href="#" class="me-4 hover:underline md:me-6 ">{{player}}</a>
         </li>
+        <h3 *ngIf="item.players.length === 0">Players not added yet!</h3>
       </ol>
       <div class="team-options mt-5">
         <div class="inline-flex rounded-md shadow-sm" role="group">

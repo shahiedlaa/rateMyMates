@@ -62,7 +62,8 @@ export class GameWeekModalComponent implements OnInit {
           playersArray.push(element['player'])
         );
       });
-      this.gameweekService.addPlayersToRoster(playersArray, this.teamId);
+      // this.gameweekService.addPlayersToRoster(playersArray, this.teamId);
+      this.gameweekService.addPlayersArray(this.teamId, playersArray);
     }
     else {
       Object.keys(data).forEach(key => {

@@ -31,6 +31,7 @@ exports.createTeam = (req, res, next) => {
 
 exports.updateTeam = (req, res, next) => {
   let imagePath = req.body.imagePath;
+  console.log(req.body);
   if (req.file) {
     const url = req.protocol + '://' + req.get('host');
     imagePath = url + '/images/' + req.file.filename;

@@ -49,7 +49,13 @@ export class TeamViewComponent implements OnInit, AfterContentInit {
   }
 
   getPlayersArray(postId: any) {
-    this.playersArray = this.gameweekService.getPlayersArray().filter(team => team.team_id === postId);
+    // this.playersArray = this.gameweekService.getPlayers().filter(team => team.team_id === postId);
+    this.gameweekService.getPlayers();
+    this.gameweekService.playersUpdate.subscribe(response => {
+      if (response) {
+        this.playersArray = response.filter(team => team.teamId === postId);
+      }
+    })
   }
 
   getGameweekByTeam(postId: any) {
