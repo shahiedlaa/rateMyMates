@@ -49,7 +49,6 @@ export class TeamViewComponent implements OnInit, AfterContentInit {
   }
 
   getPlayersArray(postId: any) {
-    // this.playersArray = this.gameweekService.getPlayers().filter(team => team.team_id === postId);
     this.gameweekService.getPlayers();
     this.gameweekService.playersUpdate.subscribe(response => {
       if (response) {
@@ -59,11 +58,10 @@ export class TeamViewComponent implements OnInit, AfterContentInit {
   }
 
   getGameweekByTeam(postId: any) {
-    this.gameWeeks = this.gameweekService.getGameWeek().filter(team => team.team_id === postId);
-    this.gameweekService.updatedGameweeks.subscribe(data => {
-      if (data !== null) {
-        let gameweeksData: Gameweek[] = data.filter(team => team.team_id === postId);
-        this.gameWeeks = gameweeksData;
+    this.gameweekService.getGameweek();
+    this.gameweekService.sendGameweek.subscribe(response => {
+      if (response) {
+        this.gameWeeks = response.filter(team => team.teamId === postId);
       }
     })
   }

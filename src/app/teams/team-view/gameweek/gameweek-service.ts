@@ -22,19 +22,20 @@ export class GameWeekService {
   sendTeamId = new BehaviorSubject<any>(null);
   playersUpdate = new BehaviorSubject<any>(null);
 
+  // {
+  //   week: 1,
+  //   players: [{ name: 'Rashford', rating: 6 }, { name: 'Tommy', rating: 7 }]
+  // }
+  // {
+  //   week: 2,
+  //   players: [{ name: 'Joshua', rating: 6 }, { name: 'Farid', rating: 7 }]
+  // }
 
   private gameWeeks: any[] = [
-    {
-      team_id: '665b05f8941dee3b07d50970',
-      weeksArray: [{
-        week: 1,
-        players: [{ name: 'Rashford', rating: 6 }, { name: 'Tommy', rating: 7 }]
-      },
-      {
-        week: 2,
-        players: [{ name: 'Joshua', rating: 6 }, { name: 'Farid', rating: 7 }]
-      }]
-    },
+    // {
+    //   team_id: '665b05f8941dee3b07d50970',
+    //   weeksArray: []
+    // },
     {
       team_id: '66549a614774a068fda394f2',
       weeksArray: [{
@@ -113,6 +114,22 @@ export class GameWeekService {
       .subscribe(responseData => {
         this.playersArray = responseData.players;
         this.playersUpdate.next(this.playersArray);
+      });
+  }
+
+  addGameWeek(teamData: any) {
+    console.log(teamData);
+    this.http.post<any>(BACKEND_URL + '/addGameweek', teamData)
+      .subscribe(responseData => {
+        console.log(responseData);
+      });
+  }
+
+  getGameweek() {
+    this.http.get<any>(BACKEND_URL + '/getGameweek')
+      .subscribe(responseData => {
+        this.gameWeeks = responseData.data;
+        this.sendGameweek.next(this.gameWeeks);
       });
   }
 

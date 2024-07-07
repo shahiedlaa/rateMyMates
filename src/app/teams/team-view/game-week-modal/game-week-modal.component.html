@@ -25,9 +25,22 @@
             <div *ngFor="let player of players.controls; let i = index">
               <div [formGroupName]="i" class="inline-flex items-center py-2 text-md font-medium">
                 <span>{{i+1}}. Player : </span>
-                <input type="text" id="player_name" formControlName="player"
+                <!-- <input type="text" id="player_name" formControlName="player"
                   class="bg-gray-50 border border-gray-300 text-gray-900 mx-1 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-1/2 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                  placeholder="Name..." required />
+                  placeholder="Name..." required /> -->
+                <select name="name" id="player_name" formControlName="player" required
+                  class="bg-gray-50 border border-gray-300 text-gray-900 mx-1 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-1/2 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                  <ng-container *ngFor="let item of playersArray">
+                    <option *ngFor="let playerName of item.players " [value]="playerName">
+                      {{playerName}}</option>
+                  </ng-container>
+                </select>
+                <div class="flex flex-row items-center">
+                  <span>&nbsp; Rating : </span>
+                  <input type="number" id="player_rating" formControlName="rating"
+                    class="bg-gray-50 border border-gray-300 text-gray-900 mx-1 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-1/2 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    required />
+                </div>
 
                 <button (click)="removePlayer(i)" class="inline-flex items-center py-2 text-md font-medium">
                   <svg class="w-6 h-6 me-2" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -68,7 +81,7 @@
           <button data-modal-hide="default-modal" type="button"
             class="py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">Close</button>
         </div>
-
+        {{gameWeekForm.value | json}}
       </form>
     </div>
   </div>

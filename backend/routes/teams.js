@@ -7,5 +7,7 @@ const router = express.Router();
 
 router.post('', checkAuth, TeamsController.addPlayersToTeam);
 router.get('', checkAuth, TeamsController.getPlayers)
+router.post('/addGameweek', checkAuth, TeamsController.addGameweek);
+router.get('/getGameweek', checkAuth, TeamsController.getGameweek);
 
 module.exports = router;

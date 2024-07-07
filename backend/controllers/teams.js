@@ -1,13 +1,11 @@
 const PlayersArray = require('../models/playersArray');
+const Gameweek = require('../models/gameweek');
 
 exports.addPlayersToTeam = (req, res, next) => {
-  console.log('here');
-  console.log(req.body)
   const players = new PlayersArray({
     teamId: req.body.teamId,
     players: req.body.players,
   });
-  console.log(players);
   players.save()
     .then((createdPost) => {
       res.status(201).json({
@@ -43,4 +41,42 @@ exports.getPlayers = (req, res, next) => {
     });
 };
 
+exports.addGameweek = (req, res, next) => {
+  const gameweek = new Gameweek({
+    teamId: req.body.team_id,
+    weeksArray: req.body.weeksArray
+  });
+  gameweek.save()
+    .then((createdPost) => {
+      res.status(201).json({
+        message: 'gameweek added successfully!',
+        post: {
+          teamId: createdPost.teamId,
+        }
+      })
+    })
+    .catch(error => {
+      res.status(500).json({
+        message: 'adding gameweek failed!'
+      });
+    });
+
+};
+
+exports.getGameweek = (req, res, next) => {
+  const postQuery = Gameweek.find();
+  postQuery
+    .then(data => {
+      res.status(200).json({
+        message: 'gameweek fetched successfully!',
+        data: data
+      });
+    }
+    )
+    .catch(error => {
+      res.status(500).json({
+        message: 'fetching posts failed!'
+      });
+    });
+};
 
