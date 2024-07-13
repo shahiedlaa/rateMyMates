@@ -25,13 +25,16 @@ export class GameWeekModalComponent implements OnInit {
 
 
   ngOnInit(): void {
-    this.getGameweek();
+    this.gameweekService.getPlayers();
     this.postService.formEmiiter.subscribe((response) => {
       if (response !== null && response === 'addPlayers') {
-        this.addPlayerMode = true
+        this.addPlayerMode = true;
+        this.populateData();
       }
       else {
         this.addPlayerMode = false
+        const players = this.gameWeekForm.get('players') as FormArray;
+        players.clear();
       }
     })
     this.gameweekService.getPlayers();
@@ -56,10 +59,11 @@ export class GameWeekModalComponent implements OnInit {
     return this.gameWeekForm.get('players') as FormArray;
   }
 
-  newPlayer(): FormGroup {
+  newPlayer(data?: any): FormGroup {
+    data = data || { name: null, rating: null }
     return this.formBuilder.group({
-      player: '',
-      rating: '',
+      player: data.name ? data.name : 'New Player',
+      rating: data.rating ? data.rating : null,
     });
   }
 
@@ -69,6 +73,24 @@ export class GameWeekModalComponent implements OnInit {
 
   removePlayer(i: number) {
     this.players.removeAt(i);
+  }
+
+  populateData() {
+    this.gameweekService.playersUpdate.subscribe(data => {
+      if (data) {
+        let teamPlayers = data?.filter(team => team.teamId === this.teamId);
+        let playerData = teamPlayers[0]?.players;
+        const players = this.gameWeekForm.get('players') as FormArray;
+        players.clear();
+        playerData?.forEach(b => {
+          const data = {
+            name: b,
+            rating: null
+          }
+          players.push(this.newPlayer(data));
+        });
+      }
+    });
   }
 
   onSubmit() {
@@ -81,7 +103,17 @@ export class GameWeekModalComponent implements OnInit {
           playersArray.push(element['player'])
         );
       });
-      this.gameweekService.addPlayersArray(this.teamId, playersArray);
+
+      this.gameweekService.playersUpdate.subscribe((response) => {
+        let teamExist = response?.filter(team => team.teamId === this.teamId);
+        if (teamExist.length !== 0) {
+          let objectId = teamExist[0]._id;
+          this.gameweekService.updatePlayers(this.teamId, objectId, playersArray);
+        }
+        else {
+          this.gameweekService.addPlayersArray(this.teamId, playersArray);
+        }
+      })
     }
     else {
       Object.keys(data).forEach(key => {
@@ -115,10 +147,16 @@ export class GameWeekModalComponent implements OnInit {
         this.initialGameweek[0].weeksArray.push(gameWeek);
         console.log(this.initialGameweek);
       }
-
-
-
     }
+
+    this.gameweekService.getPlayers();
+    this.gameweekService.playersUpdate.subscribe(response => {
+      if (response) {
+        this.playersArray = response.filter(team => team.teamId === this.teamId);
+      }
+    })
   }
+
+
 
 }

@@ -117,6 +117,19 @@ export class GameWeekService {
       });
   }
 
+  updatePlayers(teamId: string, id, players: any) {
+    const data = {
+      id: id,
+      teamId: teamId,
+      players: players
+    };
+    this.http.put(BACKEND_URL + '/' + teamId, data)
+      .subscribe((response) => {
+        if (response) {
+        }
+      })
+  }
+
   addGameWeek(teamData: any) {
     console.log(teamData);
     this.http.post<any>(BACKEND_URL + '/addGameweek', teamData)

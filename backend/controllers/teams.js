@@ -80,3 +80,30 @@ exports.getGameweek = (req, res, next) => {
     });
 };
 
+exports.updatePlayers = (req, res, next) => {
+  const players = new PlayersArray({
+    _id: req.body.id,
+    teamId: req.params.teamId,
+    players: req.body.players
+  });
+
+  PlayersArray.updateOne({ teamId: req.params.teamId }, players)
+    .then(result => {
+      if (result.matchedCount > 0) {
+        res.status(200).json({
+          message: 'team updated successfully!'
+        });
+      }
+      else {
+        res.status(401).json({
+          message: 'update not authorized!'
+        });
+      }
+    })
+    .catch(error => {
+      res.status(500).json({
+        message: 'updating players failed!'
+      });
+    });
+
+};
