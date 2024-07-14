@@ -19,10 +19,9 @@ export class GameWeekModalComponent implements OnInit {
     })
   }
 
-  gameWeekForm: FormGroup;
-  initialGameweek: any = [];
-  playersArray: any[] = [];
-
+  public gameWeekForm: FormGroup;
+  private initialGameweek: any = [];
+  public playersArray: any[] = [];
 
   ngOnInit(): void {
     this.gameweekService.getPlayers();
@@ -43,13 +42,18 @@ export class GameWeekModalComponent implements OnInit {
         this.playersArray = response.filter(team => team.teamId === this.teamId);
       }
     })
-
+    this.getGameweek();
+    this.postService.getCreatorId().subscribe(response => {
+      if (response) {
+        localStorage.setItem('creatorId', response);
+      }
+    })
   }
 
   getGameweek() {
     this.gameweekService.getGameweek();
     this.gameweekService.sendGameweek.subscribe((response) => {
-      if (response) {
+      if (response && response.length > 0) {
         this.initialGameweek = response.filter(team => team.teamId === this.teamId);
       }
     })
@@ -116,10 +120,24 @@ export class GameWeekModalComponent implements OnInit {
       })
     }
     else {
+
       Object.keys(data).forEach(key => {
         data[key].forEach(element =>
-          playersArray.push(element));
+          playersArray.push(element)
+        );
       });
+
+      const creatorId = localStorage.getItem('creatorId');
+
+      for (let i = 0; i < playersArray.length; i++) {
+        let ratingFormat = {
+          ratedBy: creatorId,
+          rating: playersArray[i].rating
+        };
+        playersArray[i].rating = ratingFormat;
+      }
+
+      console.log(playersArray);
 
       let createFromScratch = this.initialGameweek.length === 0;
 
@@ -132,7 +150,7 @@ export class GameWeekModalComponent implements OnInit {
             players: playersArray
           }]
         }
-        this.gameweekService.addGameWeek(newGameWeek)
+        this.gameweekService.addGameWeek(newGameWeek);
       }
       else {
         const copiedArray = Array.from(this.initialGameweek);

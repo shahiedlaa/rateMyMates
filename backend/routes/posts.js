@@ -10,7 +10,7 @@ router.post('', checkAuth, ExtractFile, TeamsController.createTeam)
 
 router.put('/:postId', checkAuth, ExtractFile, TeamsController.updateTeam);
 
-router.get('', TeamsController.getTeams);
+router.get('', checkAuth, TeamsController.getTeams);
 
 router.get('/:id', TeamsController.getTeamById);
 

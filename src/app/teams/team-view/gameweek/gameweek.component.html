@@ -22,7 +22,7 @@
           </p>
         </div>
         <div class="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
-          <span>{{player.rating}}</span>
+          <span *ngFor="let rating of player.rating">{{rating.rating}}</span>
         </div>
       </div>
     </li>

@@ -22,20 +22,7 @@ export class GameWeekService {
   sendTeamId = new BehaviorSubject<any>(null);
   playersUpdate = new BehaviorSubject<any>(null);
 
-  // {
-  //   week: 1,
-  //   players: [{ name: 'Rashford', rating: 6 }, { name: 'Tommy', rating: 7 }]
-  // }
-  // {
-  //   week: 2,
-  //   players: [{ name: 'Joshua', rating: 6 }, { name: 'Farid', rating: 7 }]
-  // }
-
   private gameWeeks: any[] = [
-    // {
-    //   team_id: '665b05f8941dee3b07d50970',
-    //   weeksArray: []
-    // },
     {
       team_id: '66549a614774a068fda394f2',
       weeksArray: [{

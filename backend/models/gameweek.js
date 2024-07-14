@@ -5,7 +5,7 @@ const gameweekSchema = mongoose.Schema({
   weeksArray: {
     type: [{
       week: Number,
-      players: [{ player: String, rating: Number }]
+      players: [{ player: String, rating: [{ ratedBy: String, rating: Number }] }]
     }]
   }
 });

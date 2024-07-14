@@ -31,7 +31,7 @@ export class GameweekComponent implements OnInit {
       if (response !== null) {
         let newGameweekData = response;
         let gameweeks;
-        gameweeks = newGameweekData.filter(team => team.team_id === this.teamId)[0];
+        gameweeks = newGameweekData?.filter(team => team.team_id === this.teamId)[0];
         let updatedGameweek = gameweeks.weeksArray[gameweeks.weeksArray.findIndex(el => el.week === this.week)];
         this.gameWeekData = updatedGameweek;
       }

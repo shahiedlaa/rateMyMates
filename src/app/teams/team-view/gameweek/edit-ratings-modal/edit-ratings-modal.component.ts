@@ -4,6 +4,7 @@ import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 
 import { GameWeekService } from '../gameweek-service';
+import { PostService } from 'src/app/teams/post-service';
 
 @Component({
   selector: 'edit-ratings-modal',
@@ -11,7 +12,7 @@ import { GameWeekService } from '../gameweek-service';
   styleUrls: ['./edit-ratings-modal.component.css']
 })
 export class EditRatingsModalComponent implements OnInit {
-  constructor(private formBuilder: FormBuilder, private gameweekService: GameWeekService, private route: ActivatedRoute) {
+  constructor(private formBuilder: FormBuilder, private gameweekService: GameWeekService, private postService: PostService, private route: ActivatedRoute) {
     this.gameWeekForm = this.formBuilder.group({
       players: this.formBuilder.array([], { validators: [Validators.required] })
     })
@@ -56,8 +57,13 @@ export class EditRatingsModalComponent implements OnInit {
       this.week = data?.week;
       const players = this.gameWeekForm.get('players') as FormArray;
       players.clear();
-      playerData?.forEach(b => {
-        players.push(this.newPlayer(b))
+      let creatorId = localStorage.getItem('creatorId');
+      playerData?.forEach(element => {
+        const data = {
+          name: element.player,
+          rating: element.rating.filter(e => e.ratedBy === creatorId)[0]['rating']
+        }
+        players.push(this.newPlayer(data));
       });
     });
   }

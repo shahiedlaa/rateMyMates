@@ -15,6 +15,7 @@ export class PostService {
   posts: Post[] = [];
   updatePosts = new Subject<{ posts: Post[], postCount: number }>()
   formEmiiter = new BehaviorSubject(null);
+  emitCreatorId = new BehaviorSubject(null);
 
   constructor(private http: HttpClient, private router: Router) { }
 
@@ -24,6 +25,7 @@ export class PostService {
       .pipe(map((postData) => {
         return {
           posts: postData.posts.map((post: any) => {
+            this.emitCreatorId.next(post.creator);
             return {
               title: post.title,
               content: post.content,
@@ -88,5 +90,9 @@ export class PostService {
 
   deletePost(postId: string) {
     return this.http.delete(BACKEND_URL + '/' + postId);
+  }
+
+  getCreatorId() {
+    return this.emitCreatorId.asObservable();
   }
 }

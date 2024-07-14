@@ -69,7 +69,7 @@ exports.updateTeam = (req, res, next) => {
 exports.getTeams = (req, res, next) => {
   const pageSize = +req.query.pageSize;
   const currentPage = +req.query.page;
-  const postQuery = Post.find();
+  const postQuery = Post.find({ creator: req.userData.userId });
   let fetchedPosts;
   if (pageSize && currentPage) {
     postQuery
