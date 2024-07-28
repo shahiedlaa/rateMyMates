@@ -46,6 +46,7 @@ export class TeamViewComponent implements OnInit, AfterContentInit {
   ngAfterContentInit(): void {
     this.getGameweekByTeam(this.postId);
     this.getPlayersArray(this.postId);
+    console.log(this.gameWeeks);
   }
 
   getPlayersArray(postId: any) {

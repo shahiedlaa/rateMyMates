@@ -36,9 +36,31 @@ export class GameweekComponent implements OnInit {
         this.gameWeekData = updatedGameweek;
       }
     });
+
   }
 
   sendGameweek(gameWeek: any) {
     this.gameweekService.sendGameweek.next(gameWeek);
+  }
+
+  deleteGameweek(gameWeek: any) {
+    let unmodifiedGameweek;
+    let onlyOneGameweek;
+
+    this.gameweekService.getGameweek();
+
+    this.gameweekService.sendGameweek.subscribe(response => {
+      unmodifiedGameweek = response?.filter(e => e.teamId === this.teamId);
+      onlyOneGameweek = unmodifiedGameweek[0].weeksArray.length === 1;
+    });
+
+    if (onlyOneGameweek) {
+      this.gameweekService.deleteOnlyGameweek(this.teamId);
+    }
+    else {
+      let modifiedGameweek = unmodifiedGameweek[0].weeksArray.filter(e => e.week !== gameWeek.week);
+      unmodifiedGameweek[0].weeksArray = modifiedGameweek;
+      this.gameweekService.deleteGameweek(unmodifiedGameweek[0]);
+    }
   }
 }

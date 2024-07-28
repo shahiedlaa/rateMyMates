@@ -118,11 +118,37 @@ export class GameWeekService {
   }
 
   addGameWeek(teamData: any) {
-    console.log(teamData);
     this.http.post<any>(BACKEND_URL + '/addGameweek', teamData)
       .subscribe(responseData => {
         console.log(responseData);
       });
+  }
+
+  deleteGameweek(teamData: any) {
+    console.log(teamData);
+    const teamId = teamData.teamId;
+    this.http.put(BACKEND_URL + '/deleteGameweek' + '/' + teamId, teamData)
+      .subscribe((response) => {
+        if (response) {
+        }
+      })
+  }
+
+  addSubsequentGameweek(teamData: any) {
+    const teamId = teamData.teamId;
+    this.http.put(BACKEND_URL + '/addSubsequentGameweek' + '/' + teamId, teamData)
+      .subscribe((response) => {
+        if (response) {
+        }
+      })
+  }
+
+  deleteOnlyGameweek(teamId) {
+    this.http.delete(BACKEND_URL + '/deleteOnlyGameweek' + '/' + teamId)
+      .subscribe((response) => {
+        if (response) {
+        }
+      })
   }
 
   getGameweek() {

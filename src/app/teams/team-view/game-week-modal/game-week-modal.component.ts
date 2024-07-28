@@ -47,7 +47,7 @@ export class GameWeekModalComponent implements OnInit {
       if (response) {
         localStorage.setItem('creatorId', response);
       }
-    })
+    });
   }
 
   getGameweek() {
@@ -137,9 +137,9 @@ export class GameWeekModalComponent implements OnInit {
         playersArray[i].rating = ratingFormat;
       }
 
-      console.log(playersArray);
-
-      let createFromScratch = this.initialGameweek.length === 0;
+      const createFromScratch = this.initialGameweek.length == 0;
+      console.log(createFromScratch);
+      // let createFromScratch = this.initialGameweek[0].weeksArray.length === 0;
 
       if (createFromScratch) {
         let newGameWeek =
@@ -163,7 +163,7 @@ export class GameWeekModalComponent implements OnInit {
         };
 
         this.initialGameweek[0].weeksArray.push(gameWeek);
-        console.log(this.initialGameweek);
+        this.gameweekService.addSubsequentGameweek(this.initialGameweek[0]);
       }
     }
 

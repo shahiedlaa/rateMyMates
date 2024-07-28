@@ -63,6 +63,54 @@ exports.addGameweek = (req, res, next) => {
 
 };
 
+exports.deleteGameweek = (req, res, next) => {
+  const gameweek = new Gameweek({
+    teamId: req.body.teamId,
+    weeksArray: req.body.weeksArray
+  });
+  console.log(gameweek);
+  Gameweek.updateOne({ teamId: req.params.teamId }, { $set: { teamId: req.body.teamId, weeksArray: req.body.weeksArray } })
+    .then(result => {
+      if (result.matchedCount > 0) {
+        res.status(200).json({
+          message: 'gameweek updated successfully!'
+        });
+      }
+      else {
+        res.status(401).json({
+          message: 'update not authorized!'
+        });
+      }
+    })
+    .catch(error => {
+      console.log(error);
+      res.status(500).json({
+        message: 'updating gameweek failed!'
+      });
+    });
+};
+
+exports.deleteOnlyGameweek = (req, res, next) => {
+  Gameweek.deleteOne({ teamId: req.params.teamId })
+    .then(result => {
+      if (result.deletedCount > 0) {
+        res.status(200).json({
+          message: 'only gameweek deleted successfully!'
+        });
+      }
+      else {
+        res.status(401).json({
+          message: 'only gameweek deletion not authorized!'
+        })
+      }
+    })
+    .catch(error => {
+      res.status(500).json({
+        message: 'deleting gameweek failed!'
+      });
+    });
+};
+
 exports.getGameweek = (req, res, next) => {
   const postQuery = Gameweek.find();
   postQuery
@@ -79,6 +127,35 @@ exports.getGameweek = (req, res, next) => {
       });
     });
 };
+
+exports.addSubsequentGameweek = (req, res, next) => {
+  const gameweek = new Gameweek({
+    teamId: req.body.teamId,
+    weeksArray: req.body.weeksArray
+  });
+
+  Gameweek.updateOne({ teamId: req.params.teamId }, { $set: { teamId: req.body.teamId, weeksArray: req.body.weeksArray } })
+    .then(result => {
+      if (result.matchedCount > 0) {
+        res.status(200).json({
+          message: 'gameweek updated successfully!'
+        });
+      }
+      else {
+        res.status(401).json({
+          message: 'update not authorized!'
+        });
+      }
+    })
+    .catch(error => {
+      console.log(error);
+      res.status(500).json({
+        message: 'updating gameweek failed!'
+      });
+    });
+};
+
+
 
 exports.updatePlayers = (req, res, next) => {
   const players = new PlayersArray({
