@@ -58,21 +58,33 @@ export class GameWeekService {
 
 
   updateGameweek(team_id, week: number) {
-    this.sendGameweek.subscribe(response => {
-      let data = response;
-      let players = [];
-      data.players.forEach((element) => players.push(element));
-      let editedWeek = {
-        week: week,
-        players
-      }
-      let extractedTeam = this.gameWeeks.filter(team => team.team_id === team_id);
-      extractedTeam[0].weeksArray[extractedTeam[0].weeksArray.findIndex(el => el.week === week)] = editedWeek;
-      let teamIndex = this.gameWeeks.findIndex(team => team.team_id === team_id);
+    // this.sendGameweek.subscribe(response => {
+    //   let data = response;
+    //   let players = [];
+    //   data.players.forEach((element) => players.push(element));
+    //   let editedWeek = {
+    //     week: week,
+    //     players
+    //   }
+    //   let extractedTeam = this.gameWeeks.filter(team => team.team_id === team_id);
+    //   extractedTeam[0].weeksArray[extractedTeam[0].weeksArray.findIndex(el => el.week === week)] = editedWeek;
+    //   let teamIndex = this.gameWeeks.findIndex(team => team.team_id === team_id);
 
-      this.gameWeeks[teamIndex] = extractedTeam[0];
-      this.updatedGameweeks.next(this.gameWeeks);
-    })
+    //   this.gameWeeks[teamIndex] = extractedTeam[0];
+    //   this.updatedGameweeks.next(this.gameWeeks);
+    // })
+  }
+
+  editGameweek(playersArray, weekNumber, team_id) {
+    const data = {
+      players: playersArray,
+      teamId: team_id
+    }
+    this.http.put(BACKEND_URL + '/editGameweek' + '/' + weekNumber, data)
+      .subscribe((response) => {
+        if (response) {
+        }
+      })
   }
 
   addPlayersToRoster(newPlayers, teamId) {

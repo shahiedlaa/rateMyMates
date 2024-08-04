@@ -28,7 +28,17 @@ export class EditRatingsModalComponent implements OnInit {
   ngOnInit(): void {
     this.populateData();
     this.teamId = window.location.pathname.split('/')[2];
-    this.playersArray = this.gameweekService.getPlayersArray().filter(team => team.team_id === this.teamId);
+    this.week = window.location.pathname.split('/')[4];
+    this.gameweekService.playersUpdate.subscribe(response => {
+      if (response) {
+        this.playersArray = response.filter(team => team.teamId === this.teamId);
+      }
+    });
+    this.postService.getCreatorId().subscribe(response => {
+      if (response) {
+        localStorage.setItem('creatorId', response);
+      }
+    });
   }
 
   get players(): FormArray {
@@ -38,7 +48,7 @@ export class EditRatingsModalComponent implements OnInit {
   newPlayer(data?: any): FormGroup {
     data = data || { name: null, rating: null }
     return this.formBuilder.group({
-      name: data ? data.name : '',
+      player: data ? data.name : '',
       rating: data ? data.rating : null,
     });
   }
@@ -69,9 +79,28 @@ export class EditRatingsModalComponent implements OnInit {
   }
 
   onSubmit(formData: FormGroup) {
-    let week = this.week;
-    this.gameweekService.sendGameweek.next(formData.value);
-    this.gameweekService.updateGameweek(this.teamId, +week);
+    const data = this.gameWeekForm.value;
+    const playersArray = [];
+
+    Object.keys(data).forEach(key => {
+      data[key].forEach(element =>
+        playersArray.push(element)
+      );
+    });
+
+    const creatorId = localStorage.getItem('creatorId');
+
+    for (let i = 0; i < playersArray.length; i++) {
+      let ratingFormat = {
+        ratedBy: creatorId,
+        rating: playersArray[i].rating
+      };
+      playersArray[i].rating = ratingFormat;
+    }
+
+    this.gameweekService.editGameweek(playersArray, this.week, this.teamId);
+
+
   }
 
 }

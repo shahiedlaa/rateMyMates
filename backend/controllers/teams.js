@@ -184,3 +184,27 @@ exports.updatePlayers = (req, res, next) => {
     });
 
 };
+
+exports.editGameweek = (req, res, next) => {
+  console.log(req.body);
+
+  Gameweek.updateOne({ teamId: req.body.teamId, "weeksArray.week": req.params.weekNumber }, { $set: { "weeksArray.$.players": req.body.players } })
+    .then(result => {
+      if (result.matchedCount > 0) {
+        res.status(200).json({
+          message: 'gameweek updated successfully!'
+        });
+      }
+      else {
+        res.status(401).json({
+          message: 'update not authorized!'
+        });
+      }
+    })
+    .catch(error => {
+      console.log(error);
+      res.status(500).json({
+        message: 'updating gameweek failed!'
+      });
+    });
+};

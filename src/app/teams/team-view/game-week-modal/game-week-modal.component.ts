@@ -138,8 +138,6 @@ export class GameWeekModalComponent implements OnInit {
       }
 
       const createFromScratch = this.initialGameweek.length == 0;
-      console.log(createFromScratch);
-      // let createFromScratch = this.initialGameweek[0].weeksArray.length === 0;
 
       if (createFromScratch) {
         let newGameWeek =
