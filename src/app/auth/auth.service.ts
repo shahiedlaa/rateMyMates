@@ -1,8 +1,10 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { Router } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 
-import { Subject } from "rxjs";
+import { Subject, window } from "rxjs";
+
+import { initFlowbite } from "flowbite";
 
 import { AuthData } from "./auth-data.model";
 
@@ -13,7 +15,7 @@ const BACKEND_URL = environment.apiUrl + "/user"
 @Injectable({ providedIn: 'root' })
 export class AuthService {
 
-  constructor(private http: HttpClient, private router: Router) { }
+  constructor(private http: HttpClient, private router: Router, private route: ActivatedRoute) { }
 
   private token;
   private authStatusListener = new Subject<boolean>();
@@ -42,10 +44,12 @@ export class AuthService {
     return this.userId;
   }
 
-  createUser(email: string, password: string) {
+  createUser(email: string, password: string, accessType: string, creatorId: string) {
     const authData: AuthData = {
       email: email,
-      password: password
+      password: password,
+      accessType: accessType,
+      creatorId: creatorId
     };
     this.http.post(BACKEND_URL + '/signup', authData)
       .subscribe(response => {
@@ -58,11 +62,11 @@ export class AuthService {
   }
 
   login(email: string, password: string) {
-    const authData: AuthData = {
+    const authData: any = {
       email: email,
       password: password
     };
-    this.http.post<{ token: string, expiresIn: number, userId: string }>(BACKEND_URL + '/login', authData)
+    this.http.post<{ token: string, expiresIn: number, userId: string, accessType: string, creatorId: string }>(BACKEND_URL + '/login', authData)
       .subscribe(response => {
         const token = response.token;
         this.token = token;
@@ -70,13 +74,15 @@ export class AuthService {
 
           this.userId = response.userId;
 
+          console.log(response);
+
           const expiresInDuration = response.expiresIn;
           this.setAuthTimer(expiresInDuration);
           const timeNow = new Date().getTime();
           const expirationDate = new Date(timeNow + expiresInDuration * 1000);
 
           console.log(expirationDate);
-          this.saveAuthData(token, expirationDate, this.userId);
+          this.saveAuthData(token, expirationDate, this.userId, response.accessType, response.creatorId);
           this.userAuthenticated = true;
           this.authStatusListener.next(true);
           this.router.navigate(['/']);
@@ -96,6 +102,9 @@ export class AuthService {
     this.authStatusListener.next(false);
     this.clearAuthData();
     this.router.navigate(['/']);
+    setTimeout(() => {
+      initFlowbite();
+    });
   }
 
   onAutoAuthUser() {
@@ -121,10 +130,12 @@ export class AuthService {
     }, duration * 1000);
   }
 
-  private saveAuthData(token: string, expirationDate: Date, userId: string) {
+  private saveAuthData(token: string, expirationDate: Date, userId: string, accessType: string, creatorId: string) {
     localStorage.setItem('token', token);
     localStorage.setItem('expiration', expirationDate.toISOString());
     localStorage.setItem('userId', userId);
+    localStorage.setItem('accessType', accessType);
+    localStorage.setItem('creatorId', creatorId);
   }
 
   private clearAuthData() {

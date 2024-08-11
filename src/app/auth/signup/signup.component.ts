@@ -18,6 +18,18 @@ export class SignUpComponent implements OnInit, OnDestroy {
   public authError = false;
   public authErrorMessage: string;
 
+  public access = undefined;
+  public accessTypes = [
+    {
+      label: 'Creator',
+      value: 'creator'
+    },
+    {
+      label: 'User',
+      value: 'user'
+    }
+  ];
+
   isLoading: boolean = false;
 
   @ViewChild('modalEl', { static: false, read: HTMLElement }) modal;
@@ -48,7 +60,7 @@ export class SignUpComponent implements OnInit, OnDestroy {
       return;
     }
     this.isLoading = true;
-    this.authService.createUser(signUpForm.value.email, signUpForm.value.password);
+    this.authService.createUser(signUpForm.value.email, signUpForm.value.password, signUpForm.value.accessType, signUpForm.value.creatorId);
   }
 
 }

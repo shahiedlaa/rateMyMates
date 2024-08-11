@@ -20,7 +20,20 @@ export class PostService {
   constructor(private http: HttpClient, private router: Router) { }
 
   getPosts(postsPerPage?: number, currentPage?: number) {
-    const queryParams = `?pageSize=${postsPerPage}&page=${currentPage}`;
+
+    const accessType = localStorage.getItem('accessType');
+    const creatorId = localStorage.getItem('creatorId');
+    let queryParams;
+
+    if (accessType !== 'user') {
+      queryParams = `?pageSize=${postsPerPage}&page=${currentPage}`;
+    }
+    else {
+      queryParams = `?pageSize=${postsPerPage}&page=${currentPage}&creatorId=${creatorId}`;
+    };
+
+    console.log(queryParams);
+
     this.http.get<{ message: string, posts: any, maxPosts: number }>(BACKEND_URL + queryParams)
       .pipe(map((postData) => {
         return {

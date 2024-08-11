@@ -69,8 +69,15 @@ exports.updateTeam = (req, res, next) => {
 exports.getTeams = (req, res, next) => {
   const pageSize = +req.query.pageSize;
   const currentPage = +req.query.page;
-  const postQuery = Post.find({ creator: req.userData.userId });
+  const creatorId = req.query.creatorId;
+
+  let value = undefined;
+
+  creatorId !== undefined ? value = creatorId : value = req.userData.userId;
+
+  const postQuery = Post.find({ creator: value });
   let fetchedPosts;
+  let fetchedPostsCount;
   if (pageSize && currentPage) {
     postQuery
       .skip(pageSize * (currentPage - 1))
@@ -79,6 +86,7 @@ exports.getTeams = (req, res, next) => {
   postQuery
     .then(documents => {
       console.log(documents);
+      fetchedPostsCount = documents.length;
       fetchedPosts = documents;
       return Post.countDocuments();
     }
@@ -87,7 +95,7 @@ exports.getTeams = (req, res, next) => {
       res.status(200).json({
         message: 'post fetched successfully!',
         posts: fetchedPosts,
-        maxPosts: count
+        maxPosts: fetchedPostsCount
       });
     })
     .catch(error => {
