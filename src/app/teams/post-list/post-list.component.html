@@ -27,7 +27,7 @@
       <div class="flex items-center justify-between mb-4">
         <h5 class="text-xl font-bold leading-none text-gray-900 dark:text-white">{{userIsAuthenticated? 'Your Teams':
           'Teams Registered'}} </h5>
-        <h3>Creator ID: {{creatorId}}</h3>
+        <h3 *ngIf="accessType==='admin'">Creator ID: {{creatorId}}</h3>
       </div>
       <div class="flow-root">
         <ul role="list">
@@ -36,8 +36,7 @@
               <div class="flex-1 min-w-0">
                 <div class="flex justify-between">
                   <h5 class="text-l font-bold leading-none text-gray-900 dark:text-white">{{post.title}}</h5>
-                  <div class="inline-flex rounded-md shadow-sm" role="group"
-                    *ngIf="userIsAuthenticated && userId === post.creator">
+                  <div class="inline-flex rounded-md shadow-sm" role="group" *ngIf="userIsAuthenticated">
                     <button type="button" [routerLink]="['/view', post.id]"
                       class="px-4 py-2 text-white font-medium text-gray-900 bg-green-700 border border-gray-450 rounded-s-lg rounded-e-lg hover:bg-gray-900 hover:text-white focus:z-10 focus:ring-2 focus:ring-gray-500 focus:bg-gray-900 focus:text-white dark:border-white dark:text-white dark:hover:text-white dark:hover:bg-gray-700 dark:focus:bg-gray-700">
                       View Team

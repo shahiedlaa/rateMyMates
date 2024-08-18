@@ -24,9 +24,11 @@ export class TeamViewComponent implements OnInit, AfterContentInit {
   public gameWeeks: Gameweek[] = [];
   public playersArray: any[] = [];
 
+  public accessType: string = '';
+
   ngOnInit(): void {
     initFlowbite();
-    let teamId: string;
+    this.accessType = localStorage.getItem('accessType');
     this.route.paramMap.subscribe((params) => {
       if (params.has('postId')) {
         this.postId = params.get('postId');
@@ -46,7 +48,6 @@ export class TeamViewComponent implements OnInit, AfterContentInit {
   ngAfterContentInit(): void {
     this.getGameweekByTeam(this.postId);
     this.getPlayersArray(this.postId);
-    console.log(this.gameWeeks);
   }
 
   getPlayersArray(postId: any) {

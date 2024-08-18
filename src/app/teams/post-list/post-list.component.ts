@@ -24,6 +24,7 @@ export class PostListComponent implements OnInit, OnDestroy {
 
   isLoading = false;
   userIsAuthenticated = false;
+  accessType = '';
 
   creatorId: string;
   userId: string;
@@ -36,6 +37,7 @@ export class PostListComponent implements OnInit, OnDestroy {
     setTimeout(() => {
       initFlowbite();
     });
+    this.accessType = localStorage.getItem('accessType');
     this.isLoading = true;
     this.userId = this.authService.getUserId();
     if (this.userId) {

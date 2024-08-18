@@ -70,6 +70,7 @@ exports.getTeams = (req, res, next) => {
   const pageSize = +req.query.pageSize;
   const currentPage = +req.query.page;
   const creatorId = req.query.creatorId;
+  const userId = req.userData.userId;
 
   let value = undefined;
 
@@ -95,7 +96,8 @@ exports.getTeams = (req, res, next) => {
       res.status(200).json({
         message: 'post fetched successfully!',
         posts: fetchedPosts,
-        maxPosts: fetchedPostsCount
+        maxPosts: fetchedPostsCount,
+        userId: userId
       });
     })
     .catch(error => {

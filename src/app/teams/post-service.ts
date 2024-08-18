@@ -16,6 +16,7 @@ export class PostService {
   updatePosts = new Subject<{ posts: Post[], postCount: number }>()
   formEmiiter = new BehaviorSubject(null);
   emitCreatorId = new BehaviorSubject(null);
+  userId: string;
 
   constructor(private http: HttpClient, private router: Router) { }
 
@@ -34,11 +35,13 @@ export class PostService {
 
     console.log(queryParams);
 
-    this.http.get<{ message: string, posts: any, maxPosts: number }>(BACKEND_URL + queryParams)
+    this.http.get<{ message: string, posts: any, maxPosts: number, userId: string }>(BACKEND_URL + queryParams)
       .pipe(map((postData) => {
         return {
           posts: postData.posts.map((post: any) => {
             this.emitCreatorId.next(post.creator);
+            this.userId = postData.userId;
+            localStorage.setItem('userId', this.userId);
             return {
               title: post.title,
               content: post.content,
@@ -108,4 +111,5 @@ export class PostService {
   getCreatorId() {
     return this.emitCreatorId.asObservable();
   }
+
 }

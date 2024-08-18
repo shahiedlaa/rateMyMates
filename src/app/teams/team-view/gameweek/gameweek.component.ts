@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 import { initFlowbite } from 'flowbite';
 
@@ -12,14 +13,16 @@ import { GameWeekService } from './gameweek-service';
 })
 export class GameweekComponent implements OnInit {
 
-  constructor(private gameweekService: GameWeekService) { }
+  constructor(private gameweekService: GameWeekService, private router: Router) { }
 
   public gameWeekData;
   public teamId;
   public week;
+  public accessType;
 
   ngOnInit(): void {
     initFlowbite();
+    this.accessType = localStorage.getItem('accessType');
     this.gameweekService.sendTeamId.subscribe(response => {
       this.teamId = response;
     });

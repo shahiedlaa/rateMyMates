@@ -22,17 +22,23 @@ export class EditRatingsModalComponent implements OnInit {
 
   public gameWeekForm: FormGroup;
   public playersArray = [];
+  public playersArrayClone = [];
   private teamId;
   private week;
+  public accessType = '';
 
   ngOnInit(): void {
     this.populateData();
+    this.accessType = localStorage.getItem('accessType');
     this.teamId = window.location.pathname.split('/')[2];
     this.week = window.location.pathname.split('/')[4];
     this.gameweekService.playersUpdate.subscribe(response => {
       if (response) {
         this.playersArray = response.filter(team => team.teamId === this.teamId);
       }
+    });
+    this.gameweekService.sendGameweek.subscribe((response) => {
+      this.playersArrayClone = response.players;
     });
     this.postService.getCreatorId().subscribe(response => {
       if (response) {
@@ -88,17 +94,39 @@ export class EditRatingsModalComponent implements OnInit {
       );
     });
 
-    const creatorId = localStorage.getItem('creatorId');
+    const creatorId = localStorage.getItem(this.accessType === 'admin' ? 'creatorId' : 'userId');
 
-    for (let i = 0; i < playersArray.length; i++) {
-      let ratingFormat = {
-        ratedBy: creatorId,
-        rating: playersArray[i].rating
+    const startFromScratch = this.playersArrayClone.length === 0;
+
+    if (startFromScratch) {
+      for (let i = 0; i < playersArray.length; i++) {
+        let ratingFormat = {
+          ratedBy: creatorId,
+          rating: playersArray[i].rating
+        };
+        playersArray[i].rating = ratingFormat;
       };
-      playersArray[i].rating = ratingFormat;
+    }
+    else {
+      playersArray.forEach(key => {
+        let data = this.playersArrayClone.find((temp) => temp.player === key.player).rating;
+        const exist = data.find((temp) => temp.ratedBy === creatorId);
+        if (exist === undefined) {
+          console.log('here');
+          data.push({
+            ratedBy: creatorId,
+            rating: key.rating
+          });
+          console.log(this.playersArrayClone);
+        }
+        else {
+          exist.rating = key.rating
+          console.log(this.playersArrayClone);
+        }
+      })
     }
 
-    this.gameweekService.editGameweek(playersArray, this.week, this.teamId);
+    this.gameweekService.editGameweek(this.playersArrayClone, this.week, this.teamId);
 
 
   }
