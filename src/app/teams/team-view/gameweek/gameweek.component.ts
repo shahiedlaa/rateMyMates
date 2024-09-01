@@ -19,9 +19,11 @@ export class GameweekComponent implements OnInit {
   public teamId;
   public week;
   public accessType;
+  public userId;
 
   ngOnInit(): void {
     initFlowbite();
+    this.userId = localStorage.getItem('userId');
     this.accessType = localStorage.getItem('accessType');
     this.gameweekService.sendTeamId.subscribe(response => {
       this.teamId = response;
@@ -65,5 +67,13 @@ export class GameweekComponent implements OnInit {
       unmodifiedGameweek[0].weeksArray = modifiedGameweek;
       this.gameweekService.deleteGameweek(unmodifiedGameweek[0]);
     }
+  }
+
+  getAverage(rating: any) {
+    let sum = 0;
+    rating.forEach(value => {
+      sum += value.rating;
+    });
+    return (sum / rating.length).toFixed(1);
   }
 }

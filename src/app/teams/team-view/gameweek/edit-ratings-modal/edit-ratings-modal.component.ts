@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 
-import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 
 import { GameWeekService } from '../gameweek-service';
@@ -29,6 +29,7 @@ export class EditRatingsModalComponent implements OnInit {
 
   ngOnInit(): void {
     this.populateData();
+    this.gameWeekForm.get('players').disable();
     this.accessType = localStorage.getItem('accessType');
     this.teamId = window.location.pathname.split('/')[2];
     this.week = window.location.pathname.split('/')[4];
@@ -53,9 +54,10 @@ export class EditRatingsModalComponent implements OnInit {
 
   newPlayer(data?: any): FormGroup {
     data = data || { name: null, rating: null }
-    return this.formBuilder.group({
-      player: data ? data.name : '',
-      rating: data ? data.rating : null,
+    console.log(data);
+    return new FormGroup({
+      player: new FormControl({ value: data.name, disabled: this.accessType !== 'admin' }),
+      rating: new FormControl(data.rating)
     });
   }
 
@@ -73,11 +75,12 @@ export class EditRatingsModalComponent implements OnInit {
       this.week = data?.week;
       const players = this.gameWeekForm.get('players') as FormArray;
       players.clear();
-      let creatorId = localStorage.getItem('creatorId');
+      let userId = localStorage.getItem('userId');
       playerData?.forEach(element => {
+
         const data = {
           name: element.player,
-          rating: element.rating.filter(e => e.ratedBy === creatorId)[0]['rating']
+          rating: element.rating.filter(e => e.ratedBy === userId)[0] !== undefined ? element.rating.filter(e => e.ratedBy === userId)[0]['rating'] : null
         }
         players.push(this.newPlayer(data));
       });
@@ -85,7 +88,7 @@ export class EditRatingsModalComponent implements OnInit {
   }
 
   onSubmit(formData: FormGroup) {
-    const data = this.gameWeekForm.value;
+    const data = this.gameWeekForm.getRawValue();
     const playersArray = [];
 
     Object.keys(data).forEach(key => {
@@ -109,6 +112,8 @@ export class EditRatingsModalComponent implements OnInit {
     }
     else {
       playersArray.forEach(key => {
+        console.log(key);
+        console.log(this.playersArrayClone);
         let data = this.playersArrayClone.find((temp) => temp.player === key.player).rating;
         const exist = data.find((temp) => temp.ratedBy === creatorId);
         if (exist === undefined) {

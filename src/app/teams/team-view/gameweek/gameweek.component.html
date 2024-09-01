@@ -6,8 +6,9 @@
         Player
       </p>
     </div>
-    <div class="inline-flex items-center text-base font-bold text-gray-900 dark:text-white">
-      <span style="color: blue;">Rating</span>
+    <div class="inline-flex ratings-column items-center text-base font-bold text-gray-900 dark:text-white">
+      <span style="color: blue;">Your Rating</span>
+      <span style="color: blue;">Overall Rating</span>
     </div>
   </div>
   <h4 *ngIf="gameWeekData.players.length === 0"
@@ -21,12 +22,20 @@
             {{player.player}}
           </p>
         </div>
-        <div class="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
-          <span *ngFor="let rating of player.rating">{{rating.rating}}</span>
+        <div class="inline-flex rating-number-col items-center text-base font-semibold text-gray-900 dark:text-white">
+          <span *ngFor="let rating of player.rating">
+            <ng-container *ngIf="rating.ratedBy === userId">
+              {{rating.rating}}
+            </ng-container>
+          </span>
+          <span>
+            {{getAverage(player.rating)}}
+          </span>
         </div>
       </div>
     </li>
   </ul>
+
   <div class="button-group">
     <button type="button" data-modal-target="ratings-modal" data-modal-toggle="ratings-modal"
       (click)="sendGameweek(gameWeekData)"
