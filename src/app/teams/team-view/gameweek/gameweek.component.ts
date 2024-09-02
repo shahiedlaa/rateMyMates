@@ -76,4 +76,10 @@ export class GameweekComponent implements OnInit {
     });
     return (sum / rating.length).toFixed(1);
   }
+
+  getOwnRating(playerRating: any) {
+    let userId = localStorage.getItem('userId');
+    let rating = playerRating.filter(x => x.ratedBy === userId)[0];
+    return rating.rating;
+  }
 }

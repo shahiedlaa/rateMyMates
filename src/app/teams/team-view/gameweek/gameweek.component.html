@@ -23,10 +23,8 @@
           </p>
         </div>
         <div class="inline-flex rating-number-col items-center text-base font-semibold text-gray-900 dark:text-white">
-          <span *ngFor="let rating of player.rating">
-            <ng-container *ngIf="rating.ratedBy === userId">
-              {{rating.rating}}
-            </ng-container>
+          <span>
+            {{getOwnRating(player.rating)}}
           </span>
           <span>
             {{getAverage(player.rating)}}
@@ -35,6 +33,10 @@
       </div>
     </li>
   </ul>
+
+  <!-- <pre>
+    <code>{{gameWeekData.players | json}}</code>
+  </pre> -->
 
   <div class="button-group">
     <button type="button" data-modal-target="ratings-modal" data-modal-toggle="ratings-modal"

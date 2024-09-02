@@ -54,7 +54,6 @@ export class EditRatingsModalComponent implements OnInit {
 
   newPlayer(data?: any): FormGroup {
     data = data || { name: null, rating: null }
-    console.log(data);
     return new FormGroup({
       player: new FormControl({ value: data.name, disabled: this.accessType !== 'admin' }),
       rating: new FormControl(data.rating)
@@ -112,26 +111,45 @@ export class EditRatingsModalComponent implements OnInit {
     }
     else {
       playersArray.forEach(key => {
-        console.log(key);
-        console.log(this.playersArrayClone);
-        let data = this.playersArrayClone.find((temp) => temp.player === key.player).rating;
-        const exist = data.find((temp) => temp.ratedBy === creatorId);
-        if (exist === undefined) {
-          console.log('here');
+        let data = this.playersArrayClone.find((temp) => temp.player === key.player)?.rating;
+        const exist = data?.find((temp) => temp.ratedBy === creatorId);
+        if (exist === undefined && data !== undefined) {
           data.push({
             ratedBy: creatorId,
             rating: key.rating
           });
-          console.log(this.playersArrayClone);
+        }
+        else if (data === undefined) {
+          let ratingFormat = {
+            ratedBy: creatorId,
+            rating: key.rating
+          };
+          let data = {
+            player: key.player,
+            rating: [ratingFormat]
+          }
+          this.playersArrayClone.push(data);
         }
         else {
           exist.rating = key.rating
-          console.log(this.playersArrayClone);
         }
       })
     }
 
-    this.gameweekService.editGameweek(this.playersArrayClone, this.week, this.teamId);
+    const players = [];
+    const newData = [];
+
+    playersArray.forEach(key => {
+      players.push(key.player);
+    })
+
+    players.forEach(temp => {
+      newData.push(this.playersArrayClone.filter(x => x.player === temp)[0]);
+    })
+
+    console.log(newData);
+
+    this.gameweekService.editGameweek(newData, this.week, this.teamId);
 
 
   }
