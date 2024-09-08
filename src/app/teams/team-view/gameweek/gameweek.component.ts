@@ -71,15 +71,19 @@ export class GameweekComponent implements OnInit {
 
   getAverage(rating: any) {
     let sum = 0;
+    let length = 0
     rating.forEach(value => {
-      sum += value.rating;
+      if (value.rating) {
+        sum += value.rating;
+        length++;
+      }
     });
-    return (sum / rating.length).toFixed(1);
+    return (sum / length).toFixed(1);
   }
 
   getOwnRating(playerRating: any) {
     let userId = localStorage.getItem('userId');
-    let rating = playerRating.filter(x => x.ratedBy === userId)[0];
-    return rating.rating;
+    let rating = playerRating?.filter(x => x.ratedBy === userId)[0];
+    return rating ? rating.rating : undefined;
   }
 }

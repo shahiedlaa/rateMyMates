@@ -12,7 +12,7 @@
     </div>
   </div>
   <h4 *ngIf="gameWeekData.players.length === 0"
-    class="mb-2 text-1xl font-bold tracking-tight text-gray-900 dark:text-white">Players yet to be added to gameweek!
+    class="mb-2 text-1xl fon t-bold tracking-tight text-gray-900 dark:text-white">Players yet to be added to gameweek!
   </h4>
   <ul class="max-full divide-y divide-gray-200 dark:divide-gray-700 mb-3">
     <li *ngFor="let player of gameWeekData.players" class="p-3">
@@ -24,7 +24,7 @@
         </div>
         <div class="inline-flex rating-number-col items-center text-base font-semibold text-gray-900 dark:text-white">
           <span>
-            {{getOwnRating(player.rating)}}
+            {{getOwnRating(player.rating)? getOwnRating(player.rating): '?'}}
           </span>
           <span>
             {{getAverage(player.rating)}}

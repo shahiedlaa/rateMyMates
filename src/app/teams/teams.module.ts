@@ -10,6 +10,7 @@ import { TeamViewComponent } from './team-view/team-view.component';
 import { GameweekComponent } from "./team-view/gameweek/gameweek.component";
 import { GameWeekModalComponent } from './team-view/game-week-modal/game-week-modal.component';
 import { EditRatingsModalComponent } from './team-view/gameweek/edit-ratings-modal/edit-ratings-modal.component';
+import { TableRankingComponent } from './team-view/table-ranking/table-ranking.component';
 
 
 @NgModule({
@@ -21,6 +22,7 @@ import { EditRatingsModalComponent } from './team-view/gameweek/edit-ratings-mod
     GameweekComponent,
     GameWeekModalComponent,
     EditRatingsModalComponent,
+    TableRankingComponent,
   ],
   imports: [
     CommonModule,

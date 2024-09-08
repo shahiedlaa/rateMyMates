@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { GameWeekService } from '../gameweek/gameweek-service';
 import { PostService } from '../../post-service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'game-week-modal',
@@ -19,6 +20,7 @@ export class GameWeekModalComponent implements OnInit {
     })
   }
 
+  public subscription: Subscription;
   public gameWeekForm: FormGroup;
   private initialGameweek: any = [];
   public playersArray: any[] = [];
@@ -51,8 +53,8 @@ export class GameWeekModalComponent implements OnInit {
   }
 
   getGameweek() {
-    this.gameweekService.getGameweek();
-    this.gameweekService.sendGameweek.subscribe((response) => {
+    // this.gameweekService.getGameweek();
+    this.subscription = this.gameweekService.sendGameweek.subscribe((response) => {
       if (response && response.length > 0) {
         this.initialGameweek = response.filter(team => team.teamId === this.teamId);
       }
@@ -173,6 +175,8 @@ export class GameWeekModalComponent implements OnInit {
     })
   }
 
-
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
+  }
 
 }

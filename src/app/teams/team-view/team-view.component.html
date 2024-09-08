@@ -89,6 +89,10 @@
   </div>
 </div>
 
+<div class="content">
+  <table-ranking [tableData]='gameWeeks' [teamId]="postId"></table-ranking>
+</div>
+
 <div class="content" *ngIf="!hideGameweek">
   <div class="w-1/2 p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700"
     *ngFor="let item of gameWeeks, index as i">
