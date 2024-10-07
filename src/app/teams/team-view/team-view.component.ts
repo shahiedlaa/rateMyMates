@@ -1,4 +1,4 @@
-import { AfterContentInit, AfterViewInit, Component, OnInit } from '@angular/core';
+import { AfterContentInit, AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { initFlowbite } from 'flowbite';
@@ -10,14 +10,16 @@ import { Gameweek } from './gameweek/gameweek.model';
 import { GameWeekService } from './gameweek/gameweek-service';
 import { Subscription } from 'rxjs';
 
+
+
 @Component({
   selector: 'app-team-view',
   templateUrl: './team-view.component.html',
   styleUrls: ['./team-view.component.css']
 })
 export class TeamViewComponent {
-  constructor(private route: ActivatedRoute, private postService: PostService, private gameweekService: GameWeekService) { }
 
+  constructor(private route: ActivatedRoute, private postService: PostService, private gameweekService: GameWeekService) { }
   public postId;
   public post: Post;
 
@@ -49,11 +51,6 @@ export class TeamViewComponent {
     this.getGameweekByTeam(this.postId);
     this.getPlayersArray(this.postId);
   };
-
-  // ngAfterContentInit(): void {
-  //   this.getGameweekByTeam(this.postId);
-  //   this.getPlayersArray(this.postId);
-  // }
 
   getPlayersArray(postId: any) {
     this.gameweekService.getPlayers();

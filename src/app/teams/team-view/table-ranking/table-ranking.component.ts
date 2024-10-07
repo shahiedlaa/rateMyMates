@@ -1,7 +1,33 @@
-import { Component, Input, SimpleChanges } from '@angular/core';
+import { Component, Input, SimpleChanges, ViewChild } from '@angular/core';
 import { GameWeekService } from '../gameweek/gameweek-service';
-import { generate, Subscription } from 'rxjs';
-import * as e from 'express';
+
+import {
+  ChartComponent,
+  ApexAxisChartSeries,
+  ApexChart,
+  ApexXAxis,
+  ApexDataLabels,
+  ApexStroke,
+  ApexMarkers,
+  ApexYAxis,
+  ApexGrid,
+  ApexTitleSubtitle,
+  ApexLegend
+} from "ng-apexcharts";
+
+export type ChartOptions = {
+  series: ApexAxisChartSeries;
+  chart: ApexChart;
+  xaxis: ApexXAxis;
+  stroke: ApexStroke;
+  dataLabels: ApexDataLabels;
+  markers: ApexMarkers;
+  colors: string[];
+  yaxis: ApexYAxis;
+  grid: ApexGrid;
+  legend: ApexLegend;
+  title: ApexTitleSubtitle;
+};
 
 @Component({
   selector: 'table-ranking',
@@ -10,10 +36,16 @@ import * as e from 'express';
 })
 export class TableRankingComponent {
 
-  constructor(private gameweekService: GameWeekService) { }
+  public chartOptions: Partial<ChartOptions>;
+  @ViewChild("chart") chart: ChartComponent;
+
+  constructor() { }
 
   @Input() teamId;
   @Input() tableData;
+
+  private sortOrder = 1;
+  private sortProperty: string = 'overallRating';
 
   public tableRawData = [];
 
@@ -58,7 +90,6 @@ export class TableRankingComponent {
           rating: 0
         }
         let averageRating = [];
-        let averageWeekRating = [];
         let weekRating: number;
         let playerIsInWeek = false;
 
@@ -90,7 +121,7 @@ export class TableRankingComponent {
       x.overallRating = this.average(x.overallRating);
     });
 
-    this.optimizeDataForChart(playerWeeklyData);
+    this.optimizeDataForChart(playerWeeklyData, gameData);
     this.tableRawData = playerData;
   }
 
@@ -103,8 +134,25 @@ export class TableRankingComponent {
     return array.reduce((a, b) => a + b) / array.length;
   }
 
-  optimizeDataForChart(data: any) {
 
+  sortBy(property: any) {
+    this.sortOrder = property === this.sortProperty ? (this.sortOrder * -1) : 1;
+    this.sortProperty = property;
+    this.tableRawData = [...this.tableRawData.sort((a: any, b: any) => {
+      // sort comparison function
+      let result = 0;
+      if (a[property] < b[property]) {
+        result = -1;
+      }
+      if (a[property] > b[property]) {
+        result = 1;
+      }
+      return result * this.sortOrder;
+    })];
+  }
+
+
+  optimizeDataForChart(data: any, gameData: any) {
     data.forEach(element => {
       let data1 = element.weeklyData
       const weeklyData = data1.reduce((a, b) => {
@@ -114,22 +162,93 @@ export class TableRankingComponent {
       weeklyData.map((element) => {
         element.rating = this.average(element.rating);
       })
-      // console.log(weeklyData);
-
       element.weeklyData = weeklyData;
     })
 
-    console.log(data);
+    let xAxisLabels = [];
+    let weeklyRating = [];
 
-    // let data1 = data[0].weeklyData
-    // const res = data1.reduce((a, b) => {
-    //   const found = a.find(e => e.week == b.week);
-    //   return found ? found.rating.push(b.rating) : a.push({ ...b, rating: [b.rating] }), a;
-    // }, [])
-    // res.map((element) => {
-    //   element.rating = this.average(element.rating);
-    // })
-    // console.log(res);
+    gameData.forEach(element => {
+      xAxisLabels.push(`Week ${element.week}`);
+      weeklyRating.push(0);
+    });
+
+    data.forEach(element => {
+      let weeklyRatingCopy = [...weeklyRating];
+      for (let i = 0; i < element.weeklyData.length; i++) {
+        let weekIndex = element.weeklyData[i].week - 1;
+        let rating = element.weeklyData[i].rating;
+        weeklyRatingCopy[weekIndex] = rating;
+        element['data'] = weeklyRatingCopy;
+      }
+      delete element.weeklyData;
+    })
+
+    const seriesData = [...data];
+
+    console.log(seriesData);
+
+
+    this.chartOptions = {
+      series: seriesData,
+      chart: {
+        height: 350,
+        type: "line",
+        dropShadow: {
+          enabled: true,
+          color: "#000",
+          top: 18,
+          left: 7,
+          blur: 10,
+          opacity: 0.2
+        },
+        toolbar: {
+          show: false
+        }
+      },
+      colors: ["#77B6EA", "#545454"],
+      dataLabels: {
+        enabled: true
+      },
+      stroke: {
+        curve: "smooth"
+      },
+      title: {
+        text: "Gameweek Ratings",
+        align: "left"
+      },
+      grid: {
+        borderColor: "#e7e7e7",
+        row: {
+          colors: ["#f3f3f3", "transparent"], // takes an array which will be repeated on columns
+          opacity: 0.5
+        }
+      },
+      markers: {
+        size: 1
+      },
+      xaxis: {
+        categories: xAxisLabels,
+        title: {
+          text: "Gameweek"
+        }
+      },
+      yaxis: {
+        title: {
+          text: "Rating"
+        },
+        min: 0,
+        max: 10
+      },
+      legend: {
+        position: "top",
+        horizontalAlign: "right",
+        floating: true,
+        offsetY: -25,
+        offsetX: -5
+      }
+    };
 
   }
+
 }
