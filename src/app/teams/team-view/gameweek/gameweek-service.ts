@@ -111,6 +111,8 @@ export class GameWeekService {
   getPlayers(): any {
     this.http.get<any>(BACKEND_URL)
       .subscribe(responseData => {
+        console.log(responseData);
+
         this.playersArray = responseData.players;
         this.playersUpdate.next(this.playersArray);
       });

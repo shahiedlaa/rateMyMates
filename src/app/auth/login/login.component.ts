@@ -12,8 +12,11 @@ export class LoginComponent {
   constructor(public authService: AuthService) { }
 
   isLoading: boolean = false;
+  public authError = false;
+  public authErrorMessage: string;
 
   private authStatusSub: Subscription;
+  private errorStatusSub: Subscription;
 
   ngOnInit(): void {
     this.authStatusSub = this.authService.getAuthStatusListener().subscribe(
@@ -21,6 +24,19 @@ export class LoginComponent {
         this.isLoading = false;
       }
     );
+    this.errorStatusSub = this.authService.getErrorStatusListener().subscribe(
+      error => {
+        this.authError = true;
+        switch (error.errorMessage) {
+          case 'No user with that email found!':
+            this.authErrorMessage = 'No user found!'
+            break
+          case 'Incorrect password!':
+            this.authErrorMessage = 'Incorrect password!'
+            break
+        }
+      }
+    )
   }
 
   ngOnDestroy(): void {

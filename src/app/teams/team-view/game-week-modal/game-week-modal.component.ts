@@ -120,6 +120,7 @@ export class GameWeekModalComponent implements OnInit {
           this.gameweekService.addPlayersArray(this.teamId, playersArray);
         }
       })
+      location.reload();
     }
     else {
 

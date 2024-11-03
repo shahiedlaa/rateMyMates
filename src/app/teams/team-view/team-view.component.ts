@@ -50,6 +50,11 @@ export class TeamViewComponent {
     });
     this.getGameweekByTeam(this.postId);
     this.getPlayersArray(this.postId);
+    this.subscription = this.gameweekService.playersUpdate.subscribe(response => {
+      if (response) {
+        this.playersArray = response.filter(team => team.teamId === this.postId);
+      }
+    })
   };
 
   getPlayersArray(postId: any) {

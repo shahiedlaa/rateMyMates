@@ -147,11 +147,7 @@ export class EditRatingsModalComponent implements OnInit {
       newData.push(this.playersArrayClone.filter(x => x.player === temp)[0]);
     })
 
-    console.log(newData);
-
     this.gameweekService.editGameweek(newData, this.week, this.teamId);
-
-
   }
 
 }

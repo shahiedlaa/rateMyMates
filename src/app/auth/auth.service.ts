@@ -44,7 +44,7 @@ export class AuthService {
     return this.userId;
   }
 
-  createUser(email: string, password: string, accessType: string, creatorId: string) {
+  createUser(email: string, password: string, accessType: string, creatorId: string = '') {
     const authData: AuthData = {
       email: email,
       password: password,
@@ -56,7 +56,6 @@ export class AuthService {
         this.router.navigate(['/']);
       },
         error => {
-          console.log('ere');
           this.authStatusListener.next(false);
         });
   }

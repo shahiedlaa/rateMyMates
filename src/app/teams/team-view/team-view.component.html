@@ -10,7 +10,7 @@
       <ol class="flex flex-wrap text-gray-900 dark:text-white list-disc list-inside"
         *ngFor="let item of playersArray; index as i">
         <li *ngFor="let player of item.players">
-          <a href="#" class="me-4 hover:underline md:me-6 ">{{player}}</a>
+          <span href="#" class="me-4 hover:underline md:me-6 ">{{player}}</span>
         </li>
       </ol>
       <h3 *ngIf="playersArray.length === 0">Players not added yet!</h3>
@@ -33,7 +33,7 @@
             Edit Team
           </button>
           <!-- <button type="button" (click)="deleteTeam(postId)" -->
-          <button type="button" [disabled]="accessType !== 'admin'"
+          <button type="button" [disabled]="accessType !== 'admin'" (click)="deleteTeam(postId)"
             class="inline-flex items-center px-4 py-2 text-xs font-medium text-white bg-red-500  hover:bg-gray-700 focus:z-10 focus:ring-2 focus:ring-gray-500 focus:bg-gray-900 focus:text-white dark:border-white dark:text-white dark:hover:text-white dark:hover:bg-gray-700 dark:focus:bg-gray-700">
             <svg class="w-4 h-4 me-2" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
               <g id="SVGRepo_bgCarrier" stroke-width="0" />
