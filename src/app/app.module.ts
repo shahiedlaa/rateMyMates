@@ -10,11 +10,13 @@ import { AppRoutingModule } from './app-routing.module';
 import { AuthInterceptor } from './auth/auth-interceptor';
 import { ErrorInterceptor } from './error-interceptor';
 import { TeamsModule } from './teams/teams.module';
+import { BreadcrumbsComponent } from './shared/breadcrumbs/breadcrumbs.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HeaderComponent,
+    BreadcrumbsComponent,
   ],
   imports: [
     BrowserModule,
