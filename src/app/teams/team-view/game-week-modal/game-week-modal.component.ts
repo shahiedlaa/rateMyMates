@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, Output, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { GameWeekService } from '../gameweek/gameweek-service';
 import { PostService } from '../../post-service';
@@ -12,6 +12,8 @@ import { Subscription } from 'rxjs';
 export class GameWeekModalComponent implements OnInit {
 
   @Input('teamId') teamId;
+  @Output() popUpEmitter = new EventEmitter<boolean>();
+
   public addPlayerMode: boolean = false;
 
   constructor(private formBuilder: FormBuilder, private gameweekService: GameWeekService, private postService: PostService) {
@@ -102,6 +104,7 @@ export class GameWeekModalComponent implements OnInit {
   onSubmit() {
     let data = this.gameWeekForm.value;
     let playersArray = [];
+    let duplicates = [];
 
     if (this.addPlayerMode) {
       Object.keys(data).forEach(key => {
@@ -109,6 +112,14 @@ export class GameWeekModalComponent implements OnInit {
           playersArray.push(element['player'])
         );
       });
+
+      duplicates = playersArray.filter((item, index) => playersArray.indexOf(item) !== index);
+
+      if(duplicates.length > 0){
+        console.log(duplicates);
+        this.popUpEmitter.emit(true)
+        return;
+      }
 
       this.gameweekService.playersUpdate.subscribe((response) => {
         let teamExist = response?.filter(team => team.teamId === this.teamId);

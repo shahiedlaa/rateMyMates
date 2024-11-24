@@ -32,8 +32,7 @@
             </svg>
             Edit Team
           </button>
-          <!-- <button type="button" (click)="deleteTeam(postId)" -->
-          <button type="button" [disabled]="accessType !== 'admin'" (click)="deleteTeam(postId)"
+          <button type="button" data-modal-target="confirm-modal" data-modal-toggle="confirm-modal" [disabled]="accessType !== 'admin'" (click)="popUpAction('delete')"
             class="inline-flex items-center px-4 py-2 text-xs font-medium text-white bg-red-500  hover:bg-gray-700 focus:z-10 focus:ring-2 focus:ring-gray-500 focus:bg-gray-900 focus:text-white dark:border-white dark:text-white dark:hover:text-white dark:hover:bg-gray-700 dark:focus:bg-gray-700">
             <svg class="w-4 h-4 me-2" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
               <g id="SVGRepo_bgCarrier" stroke-width="0" />
@@ -94,7 +93,7 @@
 </div>
 
 
-<div class="content" *ngIf="!hideGameweek">
+<div class="content">
   <div class="w-1/2 p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700"
     *ngFor="let item of gameWeeks, index as i">
     <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Match Days</h5>
@@ -120,9 +119,16 @@
 </div>
 
 
-<game-week-modal id="default-modal" tabindex="-1" aria-hidden="true" [teamId]="postId"
+<game-week-modal id="default-modal" tabindex="-1" aria-hidden="true" [teamId]="postId" (popUpEmitter)="openNotification()"
   class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full"></game-week-modal>
+
+<confirm-popup [action]="actionForPopUp" [postId]="postId"></confirm-popup>
 
 <div class="content" *ngIf="hideGameweek">
   <router-outlet></router-outlet>
 </div>
+
+<button id="pop-up"  data-modal-target="confirm-modal" data-modal-toggle="confirm-modal" class="block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="button">
+  Toggle modal
+  </button>
+

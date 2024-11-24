@@ -37,6 +37,7 @@ export class PostService {
 
     this.http.get<{ message: string, posts: any, maxPosts: number, userId: string }>(BACKEND_URL + queryParams)
       .pipe(map((postData) => {
+        console.log(postData);
         return {
           posts: postData.posts.map((post: any) => {
             this.emitCreatorId.next(post.creator);

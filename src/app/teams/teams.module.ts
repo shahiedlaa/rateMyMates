@@ -13,6 +13,7 @@ import { EditRatingsModalComponent } from './team-view/gameweek/edit-ratings-mod
 import { TableRankingComponent } from './team-view/table-ranking/table-ranking.component';
 import { BrowserModule } from "@angular/platform-browser";
 import { NgApexchartsModule } from "ng-apexcharts";
+import { ConfirmPopupComponent } from "../shared/confirm-popup/confirm-popup.component";
 
 
 @NgModule({
@@ -25,6 +26,7 @@ import { NgApexchartsModule } from "ng-apexcharts";
     GameWeekModalComponent,
     EditRatingsModalComponent,
     TableRankingComponent,
+    ConfirmPopupComponent
   ],
   imports: [
     CommonModule,

@@ -1,5 +1,12 @@
 <app-header></app-header>
-<breadcrumbs></breadcrumbs>
+<div class="breadcrumbs">
+  <xng-breadcrumb [autoGenerate]="false" *ngIf="userIsAuthenticated">
+    <ng-container *xngBreadcrumbItem="let breadcrumb">
+      <b [routerLink]="breadcrumb.url">{{breadcrumb}}</b>
+    </ng-container>
+  </xng-breadcrumb>
+
+</div>
 <main>
   <router-outlet></router-outlet>
 </main>

@@ -8,13 +8,13 @@ import { TeamViewComponent } from "./teams/team-view/team-view.component";
 import { GameweekComponent } from "./teams/team-view/gameweek/gameweek.component";
 
 const routes: Routes = [
-  { path: '', component: PostListComponent },
-  { path: 'create', component: PostCreateComponent, canActivate: [AuthGuard] },
-  { path: 'edit/:postId', component: PostCreateComponent, canActivate: [AuthGuard] },
+  { path: '', component: PostListComponent, data: {breadcrumb:'Home'}},
+  { path: 'create', component: PostCreateComponent, canActivate: [AuthGuard] ,data: {breadcrumb:'Create'}},
+  { path: 'edit/:postId', component: PostCreateComponent, canActivate: [AuthGuard], data: {breadcrumb:'Edit'} },
   {
-    path: 'view/:postId', component: TeamViewComponent, canActivate: [AuthGuard],
+    path: 'view/:postId', component: TeamViewComponent, canActivate: [AuthGuard], data: {breadcrumb:'Team'},
     children: [
-      { path: 'gameweek/:gameNumber', component: GameweekComponent, canActivate: [AuthGuard] }
+      { path: 'gameweek/:gameNumber', component: GameweekComponent, canActivate: [AuthGuard], data: {breadcrumb:'Gameweek'}}
     ]
   },
   { path: 'auth', loadChildren: () => import('./auth/auth.module').then(m => m.AuthModule) }

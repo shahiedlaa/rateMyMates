@@ -186,9 +186,6 @@ export class TableRankingComponent {
 
     const seriesData = [...data];
 
-    console.log(seriesData);
-
-
     this.chartOptions = {
       series: seriesData,
       chart: {

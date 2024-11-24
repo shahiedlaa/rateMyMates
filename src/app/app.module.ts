@@ -10,13 +10,12 @@ import { AppRoutingModule } from './app-routing.module';
 import { AuthInterceptor } from './auth/auth-interceptor';
 import { ErrorInterceptor } from './error-interceptor';
 import { TeamsModule } from './teams/teams.module';
-import { BreadcrumbsComponent } from './shared/breadcrumbs/breadcrumbs.component';
+import { BreadcrumbModule } from 'xng-breadcrumb';
 
 @NgModule({
   declarations: [
     AppComponent,
     HeaderComponent,
-    BreadcrumbsComponent,
   ],
   imports: [
     BrowserModule,
@@ -25,6 +24,7 @@ import { BreadcrumbsComponent } from './shared/breadcrumbs/breadcrumbs.component
     HttpClientModule,
     ReactiveFormsModule,
     TeamsModule,
+    BreadcrumbModule,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },

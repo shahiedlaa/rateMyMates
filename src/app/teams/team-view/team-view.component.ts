@@ -1,4 +1,4 @@
-import { AfterContentInit, AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { initFlowbite } from 'flowbite';
@@ -19,6 +19,8 @@ import { Subscription } from 'rxjs';
 })
 export class TeamViewComponent {
 
+  @ViewChild('actionPopUp',{static:false}) actionModal: HTMLElement;
+
   constructor(private route: ActivatedRoute, private postService: PostService, private gameweekService: GameWeekService) { }
   public postId;
   public post: Post;
@@ -30,6 +32,9 @@ export class TeamViewComponent {
 
   public accessType: string = '';
   public tableData: any;
+
+  public actionForPopUp = '';
+
 
   ngOnInit(): void {
     initFlowbite();
@@ -92,6 +97,15 @@ export class TeamViewComponent {
 
   emitForm(action: string) {
     this.postService.formEmiiter.next(action);
+  }
+
+  popUpAction(action:string){
+    this.actionForPopUp = action;
+  }
+
+  openNotification(){
+    console.log('here');
+    document.getElementById('pop-up').click();
   }
 
   ngOnDestroy() {
