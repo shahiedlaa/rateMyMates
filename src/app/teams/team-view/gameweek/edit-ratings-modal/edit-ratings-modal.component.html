@@ -41,7 +41,7 @@
               </div>
               <div class="flex flex-row items-center">
                 <span>&nbsp; Rating : </span>
-                <input type="number" id="player_rating" formControlName="rating"
+                <input type="number" id="player_rating" formControlName="rating" min="1" max="10" onkeydown="return false;"
                   class="bg-gray-50 border border-gray-300 text-gray-900 mx-1 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-1/2 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                   placeholder="{{player.get('rating').value}}" required />
               </div>
