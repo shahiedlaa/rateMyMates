@@ -34,6 +34,7 @@ export class TeamViewComponent {
   public tableData: any;
 
   public actionForPopUp = '';
+  public duplicates:any = [];
 
 
   ngOnInit(): void {
@@ -103,9 +104,10 @@ export class TeamViewComponent {
     this.actionForPopUp = action;
   }
 
-  openNotification(){
-    console.log('here');
+  openNotification(duplicates:Event){
+    this.duplicates = duplicates;
     document.getElementById('pop-up').click();
+    this.actionForPopUp = 'duplicate';
   }
 
   ngOnDestroy() {

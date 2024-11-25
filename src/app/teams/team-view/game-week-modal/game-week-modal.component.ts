@@ -12,7 +12,7 @@ import { Subscription } from 'rxjs';
 export class GameWeekModalComponent implements OnInit {
 
   @Input('teamId') teamId;
-  @Output() popUpEmitter = new EventEmitter<boolean>();
+  @Output() popUpEmitter = new EventEmitter<any>();
 
   public addPlayerMode: boolean = false;
 
@@ -113,11 +113,11 @@ export class GameWeekModalComponent implements OnInit {
         );
       });
 
-      duplicates = playersArray.filter((item, index) => playersArray.indexOf(item) !== index);
+      let playersArrayLoweredCase = playersArray.map((item:string)=> item.toLowerCase());
+      duplicates = playersArrayLoweredCase.filter((item, index) => playersArrayLoweredCase.indexOf(item) !== index);
 
       if(duplicates.length > 0){
-        console.log(duplicates);
-        this.popUpEmitter.emit(true)
+        this.popUpEmitter.emit(duplicates);
         return;
       }
 

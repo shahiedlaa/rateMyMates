@@ -14,6 +14,7 @@ export class ConfirmPopupComponent implements OnChanges{
 
   @Input() action;
   @Input() postId;
+  @Input() duplicates;
 
   public actionText = '';
 
