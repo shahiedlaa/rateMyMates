@@ -15,7 +15,7 @@
   <h1
     class="mb-4 text-4xl font-extrabold leading-none tracking-tight text-gray-900 md:text-5xl lg:text-6xl dark:text-white">
     Come and rate your mates on gameday.</h1>
-  <p class="mb-6 text-lg font-normal text-gray-500 lg:text-xl sm:px-16 xl:px-48 dark:text-gray-400">Here at RateMyMates,
+  <p class="mb-4 p-3 text-lg font-normal text-gray-500 lg:text-xl sm:px-16 xl:px-48 dark:text-gray-400">Here at RateMyMates,
     you will be able to track the performance of your mates on match days.</p>
 </div>
 
@@ -60,43 +60,43 @@
 </ng-container>
 
 <div class="flex flex-row justify-center" *ngIf="!userIsAuthenticated">
-  <div id="animation-carousel" class="relative w-1/2" data-carousel="static">
+  <div id="animation-carousel" class="relative w-full md:w-1/2" data-carousel="static">
     <!-- Carousel wrapper -->
-    <div class="relative h-56 overflow-hidden rounded-lg md:h-96">
+    <div class="relative h-60 overflow-hidden rounded-lg">
       <!-- Item 1 -->
       <div class="hidden duration-200 ease-linear flex flex-row justify-center items-center" data-carousel-item>
         <div
-          class="block w-3/4 p-6 flex flex-row bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
+          class="block w-3/4 h-5/6 p-6 flex flex-row gap-3 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
           <div>
-            <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Create an account!</h5>
-            <p class="font-normal text-gray-700 dark:text-gray-400">With an account, you would then get access to build
+            <h5 class="mb-2 text-sm md:text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Create an account!</h5>
+            <p class="font-normal text-xs md:text-base text-gray-700 dark:text-gray-400">With an account, you would then get access to build
               your own team, or rate your mates on your current team!</p>
           </div>
-          <img src="../../../assets/images/loginPage/phone.png" class="h-40">
+          <img src="../../../assets/images/loginPage/phone.png" class="h-28 w-28">
         </div>
       </div>
       <!-- Item 2 -->
       <div class="hidden duration-200 ease-linear flex flex-row justify-center items-center" data-carousel-item>
         <div
-          class="block w-3/4 p-6 flex flex-row bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
+          class="block w-3/4 p-6 flex flex-row gap-3 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
           <div>
-            <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Explore the web app!</h5>
-            <p class="font-normal text-gray-700 dark:text-gray-400">Within the app, you can rate your mates, create your
+            <h5 class="mb-2 text-2xl text-sm md:text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Explore the web app!</h5>
+            <p class="font-normal text-xs md:text-base text-gray-700 dark:text-gray-400">Within the app, you can rate your mates, create your
               own team, edit gameweeks and most importantly give ratings!</p>
           </div>
-          <img src="../../../assets/images/loginPage/manOne.png" class="h-40">
+          <img src="../../../assets/images/loginPage/manOne.png" class="h-28 w-26">
         </div>
       </div>
       <!-- Item 3 -->
       <div class="hidden duration-200 ease-linear flex flex-row justify-center items-center" data-carousel-item>
         <div
-          class="block w-3/4 p-6 flex flex-row bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
+          class="block w-3/4 p-6 flex flex-row gap-3 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
           <div>
-            <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Banter Away!</h5>
-            <p class="font-normal text-gray-700 dark:text-gray-400">With the data collected, you can then share the
+            <h5 class="mb-2 text-2xl text-sm md:text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Banter Away!</h5>
+            <p class="font-normal text-xs md:text-base text-gray-700 dark:text-gray-400">With the data collected, you can then share the
               ratings of the gameweeks with the dashboard charts within the web application!</p>
           </div>
-          <img src="../../../assets/images/loginPage/manTwo.png" class="h-40">
+          <img src="../../../assets/images/loginPage/manTwo.png" class="h-28 w-26">
         </div>
       </div>
     </div>
