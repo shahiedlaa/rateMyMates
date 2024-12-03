@@ -4,11 +4,11 @@
   margin-bottom: 2rem;
 }
 
-.team-details {
+/* .team-details {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-}
+} */
 
 .team-info {
   flex: 2;
@@ -16,4 +16,8 @@
 
 .team-image {
   flex: 0.8;
+}
+
+.list-players {
+  font-size: 0.9rem;
 }
