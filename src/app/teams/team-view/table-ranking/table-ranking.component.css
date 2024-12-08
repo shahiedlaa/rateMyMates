@@ -2,7 +2,3 @@ a {
   cursor: pointer;
 }
 
-.container {
-  display: flex;
-  flex-direction: row;
-}

@@ -1,5 +1,4 @@
-import { Component, Input, SimpleChanges, ViewChild } from '@angular/core';
-import { GameWeekService } from '../gameweek/gameweek-service';
+import { ChangeDetectorRef, Component, Input, SimpleChanges, ViewChild } from '@angular/core';
 
 import {
   ChartComponent,
@@ -14,6 +13,8 @@ import {
   ApexTitleSubtitle,
   ApexLegend
 } from "ng-apexcharts";
+import { Subscription } from 'rxjs';
+import { TeamViewService } from '../team-view.service';
 
 export type ChartOptions = {
   series: ApexAxisChartSeries;
@@ -39,7 +40,7 @@ export class TableRankingComponent {
   public chartOptions: Partial<ChartOptions>;
   @ViewChild("chart") chart: ChartComponent;
 
-  constructor() { }
+  constructor(private teamviewService:TeamViewService) { }
 
   @Input() teamId;
   @Input() tableData;
@@ -47,13 +48,23 @@ export class TableRankingComponent {
   private sortOrder = 1;
   private sortProperty: string = 'overallRating';
 
+  private subscription:Subscription;
+
   public tableRawData = [];
+
+  ngOnInit(){
+    this.subscription = this.teamviewService.dashboardEmitter.subscribe((element)=>{
+       if (element && this.tableData) {
+      setTimeout(() => {
+        this.generateTableData(this.tableData);
+       }, 2000);
+    };
+    })
+  }
+
 
   ngOnChanges(changes: SimpleChanges) {
     this.tableData = changes['tableData'].currentValue[0]
-    if (this.tableData) {
-      this.generateTableData(this.tableData);
-    };
   }
 
   generateTableData(data: any) {
@@ -63,7 +74,7 @@ export class TableRankingComponent {
     let playerData = [];
     let playerWeeklyData = [];
 
-    gameData.forEach(temp => {
+    gameData?.forEach(temp => {
       temp.players.forEach(temp => {
         players.push(temp.player);
         uniquePlayers = this.removeusingSet(players);
@@ -152,7 +163,7 @@ export class TableRankingComponent {
   }
 
 
-  optimizeDataForChart(data: any, gameData: any) {
+  optimizeDataForChart(data: any, gameData: any[]) {
     data.forEach(element => {
       let data1 = element.weeklyData
       const weeklyData = data1.reduce((a, b) => {
@@ -167,24 +178,40 @@ export class TableRankingComponent {
 
     let xAxisLabels = [];
     let weeklyRating = [];
+    let xAxisLabelsV2 = [];
+    let xAxisLabelsV3 = [];
 
-    gameData.forEach(element => {
-      xAxisLabels.push(`Week ${element.week}`);
-      weeklyRating.push(0);
-    });
+    data.forEach(function(element){
+      xAxisLabelsV2.push(element.weeklyData[0].week);
+    })
+
+    const xAxisWeeklyCount = xAxisLabelsV2.reduce((element,acc) => element > acc? element:acc, xAxisLabelsV2[0]);
+
+    for(let i = 1; i<= xAxisWeeklyCount; i++){
+      xAxisLabelsV3.push(`Week ${i}`);
+      weeklyRating.push(null);
+    }
+
+    // gameData.forEach(element => {
+
+    // });
 
     data.forEach(element => {
+
       let weeklyRatingCopy = [...weeklyRating];
       for (let i = 0; i < element.weeklyData.length; i++) {
         let weekIndex = element.weeklyData[i].week - 1;
         let rating = element.weeklyData[i].rating;
         weeklyRatingCopy[weekIndex] = rating;
         element['data'] = weeklyRatingCopy;
+        console.log(element)
       }
       delete element.weeklyData;
     })
 
     const seriesData = [...data];
+
+    console.log(seriesData);
 
     this.chartOptions = {
       series: seriesData,
@@ -225,7 +252,7 @@ export class TableRankingComponent {
         size: 1
       },
       xaxis: {
-        categories: xAxisLabels,
+        categories: xAxisLabelsV3,
         title: {
           text: "Gameweek"
         }
@@ -235,7 +262,8 @@ export class TableRankingComponent {
           text: "Rating"
         },
         min: 0,
-        max: 10
+        max: 10,
+        tickAmount:4
       },
       legend: {
         position: "top",
@@ -245,7 +273,10 @@ export class TableRankingComponent {
         offsetX: -5
       }
     };
+  }
 
+  ngOnDestroy(){
+    this.subscription.unsubscribe();
   }
 
 }

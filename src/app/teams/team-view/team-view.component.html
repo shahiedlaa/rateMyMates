@@ -1,18 +1,18 @@
 <div class="mb-4 border-b border-gray-200 dark:border-gray-700" style="margin: 0 auto; width: 12.3rem;">
   <ul class="flex flex-wrap -mb-px text-sm font-medium text-center" id="default-tab" data-tabs-toggle="#default-tab-content" role="tablist">
       <li class="me-2" role="presentation">
-          <button class="inline-block p-4 border-b-2 rounded-t-lg" id="profile-tab" data-tabs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false">Profile</button>
+          <button class="inline-block p-4 border-b-2 rounded-t-lg" id="main-tab" data-tabs-target="#main" type="button" role="tab" aria-controls="main" aria-selected="false">Main</button>
       </li>
       <li class="me-2" role="presentation">
-          <button class="inline-block p-4 border-b-2 rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300" id="dashboard-tab" data-tabs-target="#dashboard" type="button" role="tab" aria-controls="dashboard" aria-selected="false">Dashboard</button>
+          <button (click)="dashboardTab()" class="inline-block p-4 border-b-2 rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300" id="dashboard-tab" data-tabs-target="#dashboard" type="button" role="tab" aria-controls="dashboard" aria-selected="false">Dashboard</button>
       </li>
   </ul>
 </div>
 <div id="default-tab-content">
-  <div class="hidden p-4 rounded-lg bg-gray-50 dark:bg-gray-800" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+  <div class="hidden p-4 rounded-lg bg-gray-50 dark:bg-gray-800" id="main" role="tabpanel" aria-labelledby="main-tab">
     <div class="content mb-6">
       <div
-        class="w-11/12 team-details flex flex-col-reverse md:flex-row p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+        class="w-full md:w-11/12 team-details flex flex-col-reverse md:flex-row p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
         <div class="team-info">
           <h5 class="mb-2 text:lg md:text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Team Name</h5>
           <h3 class="mb-2 text:base md:text-xl font-medium tracking-tight text-blue-700 dark:text-white">{{post?.title}}</h3>
@@ -102,7 +102,7 @@
 
 
     <div class="content">
-      <div class="w-1/2 p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700"
+      <div class="w-full md:w-11/12 p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700"
         *ngFor="let item of gameWeeks, index as i">
         <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Match Days</h5>
         <h3 *ngIf="item.weeksArray.length === 0" class="mb-2 text-l font-bold tracking-tight text-gray-900 dark:text-white">
@@ -118,7 +118,7 @@
     </div>
 
     <div class="content" *ngIf="gameWeeks.length === 0">
-      <div class="w-1/2 p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+      <div class="w-full md:w-11/12 p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
         <h3 class="mb-2 text-l font-bold tracking-tight text-gray-900 dark:text-white">
           Let's
           add a gameweek!
@@ -128,11 +128,11 @@
 
 
     <game-week-modal id="default-modal" tabindex="-1" aria-hidden="true" [teamId]="postId" (popUpEmitter)="openNotification($event)"
-      class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full"></game-week-modal>
+      class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center  md:inset-0 h-[calc(100%-1rem)] max-h-full"></game-week-modal>
 
     <confirm-popup [action]="actionForPopUp" [duplicates]="duplicates" [postId]="postId"></confirm-popup>
 
-    <div class="content" *ngIf="hideGameweek">
+    <div class="content w-full md:w-11/12" *ngIf="hideGameweek">
       <router-outlet></router-outlet>
     </div>
 
@@ -143,7 +143,7 @@
   </div>
 
 
-  <div class="hidden p-4 rounded-lg bg-gray-50 dark:bg-gray-800" id="dashboard" role="tabpanel" aria-labelledby="dashboard-tab">
+  <div id="dashboard" role="tabpanel" aria-labelledby="dashboard-tab">
     <div class="content">
       <table-ranking [tableData]='gameWeeks' [teamId]="postId"></table-ranking>
     </div>

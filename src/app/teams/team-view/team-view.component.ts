@@ -1,5 +1,6 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { Subject, Subscription } from 'rxjs';
 
 import { initFlowbite } from 'flowbite';
 
@@ -8,8 +9,7 @@ import { Post } from '../post.model';
 import { PostService } from '../post-service';
 import { Gameweek } from './gameweek/gameweek.model';
 import { GameWeekService } from './gameweek/gameweek-service';
-import { Subscription } from 'rxjs';
-
+import { TeamViewService } from './team-view.service';
 
 
 @Component({
@@ -21,7 +21,7 @@ export class TeamViewComponent {
 
   @ViewChild('actionPopUp',{static:false}) actionModal: HTMLElement;
 
-  constructor(private route: ActivatedRoute, private postService: PostService, private gameweekService: GameWeekService) { }
+  constructor(private route: ActivatedRoute, private postService: PostService, private gameweekService: GameWeekService, private teamviewService: TeamViewService) { }
   public postId;
   public post: Post;
 
@@ -35,6 +35,8 @@ export class TeamViewComponent {
 
   public actionForPopUp = '';
   public duplicates:any = [];
+
+  private dashboardEmitter = new Subject<boolean>();
 
 
   ngOnInit(): void {
@@ -108,6 +110,10 @@ export class TeamViewComponent {
     this.duplicates = duplicates;
     document.getElementById('pop-up').click();
     this.actionForPopUp = 'duplicate';
+  }
+
+  dashboardTab(){
+    this.teamviewService.dashboardClick();
   }
 
   ngOnDestroy() {

@@ -21,14 +21,14 @@
       <div class="p-2 md:p-3 space-y-4">
         <div formArrayName="players">
           <div *ngFor="let player of players.controls; let i = index">
-            <div [formGroupName]="i" class="flex py-2 text-md font-medium">
+            <div [formGroupName]="i" class="flex py-2 text-sm font-medium">
               <div class="flex flex-row items-center">
                 <span>{{i+1}}. Player : </span>
                 <!-- <input type="text" id="player_name" formControlName="player"
                   class="bg-gray-50 border border-gray-300 text-gray-900 mx-1 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-1/2 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                   placeholder="{{player.get('player').value}}" required /> -->
                 <select player="player" id="player_name" formControlName="player"
-                  class="bg-gray-50 border border-gray-300 text-gray-900 mx-1 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-1/2 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                  class="bg-gray-50 border border-gray-300 text-gray-900 mx-1 rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                   <option *ngIf="player.get('player').value" [ngValue]="player.get('player').value">
                     {{player.get('player').value}}</option>
                   <ng-container *ngFor="let item of playersArray">
@@ -42,7 +42,7 @@
               <div class="flex flex-row items-center">
                 <span>&nbsp; Rating : </span>
                 <input type="number" id="player_rating" formControlName="rating" min="1" max="10" onkeydown="return false;"
-                  class="bg-gray-50 border border-gray-300 text-gray-900 mx-1 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-1/2 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                  class="bg-gray-50 border border-gray-300 text-gray-900 mx-1 rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                   placeholder="{{player.get('rating').value}}" required />
               </div>
 
