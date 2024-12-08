@@ -15,3 +15,10 @@
 .rating-number-col {
   gap: 6.5rem;
 }
+
+*:disabled {
+  background-color: dimgrey;
+  color: white;
+  opacity: 1;
+  cursor: not-allowed;
+}

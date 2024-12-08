@@ -51,12 +51,14 @@ export class TableRankingComponent {
   private subscription:Subscription;
 
   public tableRawData = [];
+  public dataLoaded:boolean = false;
 
   ngOnInit(){
     this.subscription = this.teamviewService.dashboardEmitter.subscribe((element)=>{
        if (element && this.tableData) {
       setTimeout(() => {
         this.generateTableData(this.tableData);
+        this.dataLoaded = true;
        }, 2000);
     };
     })

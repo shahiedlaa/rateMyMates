@@ -1,4 +1,4 @@
-<div class="container flex flex-col md:flex-row">
+<div class="container flex flex-col md:flex-row" *ngIf="dataLoaded">
   <div class="relative overflow-x-auto shadow-md sm:rounded-lg m-4" *ngIf="tableData">
     <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
       <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
@@ -44,7 +44,7 @@
     </table>
   </div>
 
-  <div *ngIf="tableData">
+  <div class="p-5 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
     <apx-chart [series]="chartOptions?.series" [chart]="chartOptions?.chart" [xaxis]="chartOptions?.xaxis" [yaxis]="chartOptions?.yaxis"
       [title]="chartOptions?.title"></apx-chart>
   </div>

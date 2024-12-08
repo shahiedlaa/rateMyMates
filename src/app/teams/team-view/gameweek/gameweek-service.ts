@@ -21,6 +21,7 @@ export class GameWeekService {
   updatedGameweeks = new BehaviorSubject<any>(null);
   sendTeamId = new BehaviorSubject<any>(null);
   playersUpdate = new BehaviorSubject<any>(null);
+  deleteGameweekListener = new BehaviorSubject<any>(null);
 
   private gameWeeks: any[] = [
     {
@@ -169,6 +170,10 @@ export class GameWeekService {
         this.gameWeeks = responseData.data;
         this.sendGameweek.next(this.gameWeeks);
       });
+  }
+
+  deleteGameweekClick(){
+    this.deleteGameweekListener.next(true);
   }
 
 }

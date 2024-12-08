@@ -21,6 +21,8 @@ export class GameweekComponent implements OnInit {
   public accessType;
   public userId;
 
+  public actionForPopUp = '';
+
   ngOnInit(): void {
     initFlowbite();
     this.userId = localStorage.getItem('userId');
@@ -46,6 +48,10 @@ export class GameweekComponent implements OnInit {
 
   sendGameweek(gameWeek: any) {
     this.gameweekService.sendGameweek.next(gameWeek);
+  }
+
+  popUpAction(){
+    this.gameweekService.deleteGameweekClick();
   }
 
   deleteGameweek(gameWeek: any) {
