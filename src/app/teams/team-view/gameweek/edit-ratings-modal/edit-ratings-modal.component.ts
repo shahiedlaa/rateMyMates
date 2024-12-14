@@ -56,7 +56,7 @@ export class EditRatingsModalComponent implements OnInit {
     data = data || { name: null, rating: null }
     return new FormGroup({
       player: new FormControl({ value: data.name, disabled: this.accessType !== 'admin' }),
-      rating: new FormControl(data.rating)
+      rating: new FormControl(data.rating, [Validators.min(1),Validators.max(10)])
     });
   }
 

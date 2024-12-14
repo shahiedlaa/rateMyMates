@@ -41,8 +41,8 @@
               </div>
               <div class="flex flex-row items-center">
                 <span>&nbsp; Rating : </span>
-                <input type="number" id="player_rating" formControlName="rating" min="1" max="10" onkeydown="return false;"
-                  class="bg-gray-50 border border-gray-300 text-gray-900 mx-1 rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                <input type="number" id="player_rating" formControlName="rating"
+                  class="bg-gray-50 border border-gray-300 text-gray-900 mx-1 w-10 md:w-16 rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                   placeholder="{{player.get('rating').value}}" required />
               </div>
 
@@ -81,7 +81,7 @@
       <!-- Modal footer -->
       <div class="flex items-center justify-end p-4 md:p-5 border-t border-gray-200 rounded-b dark:border-gray-600">
         <!-- {{gameWeekForm.value | json}} -->
-        <button data-modal-hide="ratings-modal" type="submit"
+        <button data-modal-hide="ratings-modal" type="submit" [disabled]="!gameWeekForm.valid"
           class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
           Confirm</button>
         <span style="flex: 1;"></span>

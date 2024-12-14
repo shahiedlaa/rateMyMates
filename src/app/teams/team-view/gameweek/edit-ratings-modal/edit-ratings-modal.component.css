@@ -6,3 +6,10 @@ input#player_rating {
   width: 3rem;
   text-align: center;
 } */
+
+*:disabled {
+  background-color: dimgrey;
+  color: white;
+  opacity: 1;
+  cursor: not-allowed;
+}

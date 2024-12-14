@@ -70,8 +70,10 @@ export class GameWeekModalComponent implements OnInit {
   newPlayer(data?: any): FormGroup {
     data = data || { name: null, rating: null }
     return this.formBuilder.group({
-      player: data.name ? data.name : 'New Player',
-      rating: data.rating ? data.rating : null,
+      // player: data.name ? data.name : 'New Player',
+      // rating: data.rating ? data.rating : null,
+      player: new FormControl(data.name ? data.name : 'New Player', [Validators.required]),
+      rating: new FormControl(data.rating ? data.rating : null, [Validators.min(1),Validators.max(10)])
     });
   }
 
