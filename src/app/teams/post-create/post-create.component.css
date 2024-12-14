@@ -10,3 +10,9 @@ input[type='file'] {
 .image-preview img {
   height: 100%;
 }
+
+.cursor-not-allowed {
+  background-color: dimgrey;
+  color: white;
+  opacity: 1;
+}

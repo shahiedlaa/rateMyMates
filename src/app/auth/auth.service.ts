@@ -73,14 +73,11 @@ export class AuthService {
 
           this.userId = response.userId;
 
-          console.log(response);
-
           const expiresInDuration = response.expiresIn;
           this.setAuthTimer(expiresInDuration);
           const timeNow = new Date().getTime();
           const expirationDate = new Date(timeNow + expiresInDuration * 1000);
 
-          console.log(expirationDate);
           this.saveAuthData(token, expirationDate, this.userId, response.accessType, response.creatorId);
           this.userAuthenticated = true;
           this.authStatusListener.next(true);
@@ -123,7 +120,6 @@ export class AuthService {
   }
 
   private setAuthTimer(duration) {
-    console.log(duration);
     this.tokenTimer = setTimeout(() => {
       this.logout();
     }, duration * 1000);

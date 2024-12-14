@@ -11,7 +11,6 @@ exports.createTeam = (req, res, next) => {
   post
     .save()
     .then((createdPost) => {
-      console.log(createdPost);
       res.status(201).json({
         message: "post added successfully!",
         post: {
@@ -31,7 +30,6 @@ exports.createTeam = (req, res, next) => {
 
 exports.updateTeam = (req, res, next) => {
   let imagePath = req.body.imagePath;
-  console.log(req.body);
   if (req.file) {
     const url = req.protocol + "://" + req.get("host");
     imagePath = url + "/images/" + req.file.filename;
@@ -46,7 +44,6 @@ exports.updateTeam = (req, res, next) => {
 
   Post.updateOne({ _id: req.params.postId, creator: req.userData.userId }, post)
     .then((result) => {
-      console.log(result);
       if (result.matchedCount > 0) {
         res.status(200).json({
           message: "post updated successfully!",

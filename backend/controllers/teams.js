@@ -67,7 +67,6 @@ exports.deleteGameweek = (req, res, next) => {
     teamId: req.body.teamId,
     weeksArray: req.body.weeksArray,
   });
-  console.log(gameweek);
   Gameweek.updateOne(
     { teamId: req.params.teamId },
     { $set: { teamId: req.body.teamId, weeksArray: req.body.weeksArray } }
@@ -183,8 +182,6 @@ exports.updatePlayers = (req, res, next) => {
 };
 
 exports.editGameweek = (req, res, next) => {
-  console.log(req.body);
-
   Gameweek.updateOne(
     { teamId: req.body.teamId, "weeksArray.week": req.params.weekNumber },
     { $set: { "weeksArray.$.players": req.body.players } }

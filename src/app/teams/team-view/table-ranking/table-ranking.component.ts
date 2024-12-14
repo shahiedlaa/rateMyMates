@@ -206,14 +206,11 @@ export class TableRankingComponent {
         let rating = element.weeklyData[i].rating;
         weeklyRatingCopy[weekIndex] = rating;
         element['data'] = weeklyRatingCopy;
-        console.log(element)
       }
       delete element.weeklyData;
     })
 
     const seriesData = [...data];
-
-    console.log(seriesData);
 
     this.chartOptions = {
       series: seriesData,

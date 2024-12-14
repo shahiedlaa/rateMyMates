@@ -90,8 +90,6 @@ export class GameWeekService {
 
   addPlayersToRoster(newPlayers, teamId) {
     let extractedPlayers = this.playersArray.filter(team => team.team_id === teamId)[0];
-    console.log(extractedPlayers.players.push(...newPlayers));
-    console.log(this.playersArray);
   }
 
   addPlayersArray(teamId: string, players: any) {
@@ -99,7 +97,6 @@ export class GameWeekService {
     postData = {
       teamId: teamId, players: players
     };
-    console.log(postData)
     this.http.post<{ message: string, playersArray: PlayersArray }>(BACKEND_URL, postData)
       .subscribe(responseData => {
         this.router.navigate(['/']);
@@ -138,7 +135,6 @@ export class GameWeekService {
   }
 
   deleteGameweek(teamData: any) {
-    console.log(teamData);
     const teamId = teamData.teamId;
     this.http.put(BACKEND_URL + '/deleteGameweek' + '/' + teamId, teamData)
       .subscribe((response) => {

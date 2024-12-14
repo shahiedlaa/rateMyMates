@@ -33,11 +33,8 @@ export class PostService {
       queryParams = `?pageSize=${postsPerPage}&page=${currentPage}&creatorId=${creatorId}`;
     };
 
-    console.log(queryParams);
-
     this.http.get<{ message: string, posts: any, maxPosts: number, userId: string }>(BACKEND_URL + queryParams)
       .pipe(map((postData) => {
-        console.log(postData);
         return {
           posts: postData.posts.map((post: any) => {
             this.emitCreatorId.next(post.creator);
@@ -55,7 +52,6 @@ export class PostService {
         };
       }))
       .subscribe((transformedPosts) => {
-        console.log(transformedPosts);
         this.posts = transformedPosts.posts;
         this.updatePosts.next({ posts: [...this.posts], postCount: transformedPosts.maxPosts });
       })
