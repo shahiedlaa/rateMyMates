@@ -131,7 +131,7 @@ export class TableRankingComponent {
       playerData.push(data);
     })
     playerData.map((x) => {
-      x.overallRating = this.average(x.overallRating);
+      x.overallRating = this.average(x?.overallRating);
     });
 
     this.optimizeDataForChart(playerWeeklyData, gameData);
@@ -185,18 +185,17 @@ export class TableRankingComponent {
 
     data.forEach(function(element){
       xAxisLabelsV2.push(element.weeklyData[0].week);
+      console.log(element)
     })
 
     const xAxisWeeklyCount = xAxisLabelsV2.reduce((element,acc) => element > acc? element:acc, xAxisLabelsV2[0]);
 
     for(let i = 1; i<= xAxisWeeklyCount; i++){
-      xAxisLabelsV3.push(`Week ${i}`);
+      // xAxisLabelsV3.push(`Week ${i}`);
       weeklyRating.push(null);
     }
 
-    // gameData.forEach(element => {
-
-    // });
+    // console.log(xAxisLabelsV3);
 
     data.forEach(element => {
 

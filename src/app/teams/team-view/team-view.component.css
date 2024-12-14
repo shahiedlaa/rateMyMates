@@ -21,3 +21,9 @@
 .list-players {
   font-size: 0.9rem;
 }
+
+*:disabled {
+  color: white;
+  opacity: 1;
+  cursor: not-allowed;
+}

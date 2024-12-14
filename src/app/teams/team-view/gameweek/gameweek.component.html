@@ -56,7 +56,7 @@
       </svg>
       {{accessType === 'admin'?'Edit Gameweek & Ratings': 'Give Your Ratings'}}
     </button>
-    <button type="button" (click)="popUpAction()" data-modal-target="confirm-modal" data-modal-toggle="confirm-modal" [disabled]="accessType !== 'admin'"
+    <button type="button" (click)="popUpAction()" data-modal-target="confirm-modal" data-modal-toggle="confirm-modal" [disabled]="accessType !== 'admin' || week === 1"
       class="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-red-600 rounded-lg hover:bg-gray-700 focus:z-10 focus:ring-2 focus:ring-gray-500 focus:bg-gray-900 focus:text-white dark:border-white dark:text-white dark:hover:text-white dark:hover:bg-gray-700 dark:focus:bg-gray-700">
       <svg class="w-4 h-4 me-2" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
         <g id="SVGRepo_bgCarrier" stroke-width="0" />
