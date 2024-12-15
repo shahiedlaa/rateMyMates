@@ -133,7 +133,6 @@ export class GameWeekModalComponent implements OnInit {
           this.gameweekService.addPlayersArray(this.teamId, playersArray);
         }
       })
-      location.reload();
     }
     else {
 
@@ -187,8 +186,6 @@ export class GameWeekModalComponent implements OnInit {
         this.playersArray = response.filter(team => team.teamId === this.teamId);
       }
     })
-
-    location.reload();
   }
 
   ngOnDestroy() {

@@ -76,13 +76,11 @@ export class ConfirmPopupComponent {
 
         if (onlyOneGameweek) {
           this.gameweekService.deleteOnlyGameweek(this.teamId);
-          location.reload();
         }
         else {
           let modifiedGameweek = unmodifiedGameweek[0].weeksArray.filter(e => e.week !== this.gameWeekData.week);
           unmodifiedGameweek[0].weeksArray = modifiedGameweek;
           this.gameweekService.deleteGameweek(unmodifiedGameweek[0]);
-          location.reload();
           }
         break;
     }

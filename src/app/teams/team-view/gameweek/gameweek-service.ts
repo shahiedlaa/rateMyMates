@@ -123,6 +123,7 @@ export class GameWeekService {
     this.http.put(BACKEND_URL + '/' + teamId, data)
       .subscribe((response) => {
         if (response) {
+          location.reload();
         }
       })
   }
@@ -130,7 +131,7 @@ export class GameWeekService {
   addGameWeek(teamData: any) {
     this.http.post<any>(BACKEND_URL + '/addGameweek', teamData)
       .subscribe(responseData => {
-        console.log(responseData);
+        location.reload();
       });
   }
 
@@ -139,6 +140,7 @@ export class GameWeekService {
     this.http.put(BACKEND_URL + '/deleteGameweek' + '/' + teamId, teamData)
       .subscribe((response) => {
         if (response) {
+          location.reload();
         }
       })
   }
@@ -148,6 +150,7 @@ export class GameWeekService {
     this.http.put(BACKEND_URL + '/addSubsequentGameweek' + '/' + teamId, teamData)
       .subscribe((response) => {
         if (response) {
+          location.reload();
         }
       })
   }
@@ -156,6 +159,7 @@ export class GameWeekService {
     this.http.delete(BACKEND_URL + '/deleteOnlyGameweek' + '/' + teamId)
       .subscribe((response) => {
         if (response) {
+          location.reload();
         }
       })
   }

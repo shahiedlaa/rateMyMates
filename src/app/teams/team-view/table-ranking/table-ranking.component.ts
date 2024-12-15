@@ -261,7 +261,8 @@ export class TableRankingComponent {
         },
         min: 0,
         max: 10,
-        tickAmount:4
+        tickAmount:4,
+        decimalsInFloat: 1,
       },
       legend: {
         position: "top",
