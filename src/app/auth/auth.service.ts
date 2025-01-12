@@ -20,6 +20,7 @@ export class AuthService {
   private token;
   private authStatusListener = new Subject<boolean>();
   private userAuthenticated: boolean = false;
+  private userTypeListerner = new Subject<any>();
   private tokenTimer: any;
   private userId: string;
   public errorStatusListener = new Subject<{ error: boolean, errorMessage: string }>();
@@ -42,6 +43,10 @@ export class AuthService {
 
   getUserId() {
     return this.userId;
+  }
+
+  getUserTypeListener(){
+    return this.userTypeListerner.asObservable();
   }
 
   createUser(email: string, password: string, accessType: string, creatorId: string = '') {
@@ -81,6 +86,7 @@ export class AuthService {
           this.saveAuthData(token, expirationDate, this.userId, response.accessType, response.creatorId);
           this.userAuthenticated = true;
           this.authStatusListener.next(true);
+          this.userTypeListerner.next(response.accessType);
           this.router.navigate(['/']);
         }
       },
