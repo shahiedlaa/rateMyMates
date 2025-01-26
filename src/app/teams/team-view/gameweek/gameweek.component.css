@@ -22,3 +22,34 @@
   opacity: 1;
   cursor: not-allowed;
 }
+
+.gameweek_stats_main {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.gameweek_stats {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.gameweek_stats {
+  .game_result {
+    border-radius: 5px;
+    padding: 3px;
+  }
+
+  .game_win {
+    background-color: rgb(217, 245, 188);
+  }
+
+  .game_loss {
+    background-color: rgb(234, 183, 183);
+  }
+
+  .game_draw {
+    background-color: rgb(191, 225, 251);
+  }
+}

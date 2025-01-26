@@ -1,17 +1,24 @@
-import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild } from "@angular/core";
-import { Form, NgForm } from "@angular/forms";
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
+import { Form, NgForm } from '@angular/forms';
 
-import { Subscription } from "rxjs";
-import { InstanceOptions, Modal, ModalInterface, ModalOptions } from "flowbite";
+import { Subscription } from 'rxjs';
+import { InstanceOptions, Modal, ModalInterface, ModalOptions } from 'flowbite';
 
-import { AuthService } from "../auth.service";
+import { AuthService } from '../auth.service';
 
 @Component({
-  templateUrl: './signup.component.html'
+  templateUrl: './signup.component.html',
+  styleUrls: ['./signup.component.css'],
 })
-
 export class SignUpComponent implements OnInit, OnDestroy {
-  constructor(public authService: AuthService, public myElement: ElementRef) { }
+  constructor(public authService: AuthService, public myElement: ElementRef) {}
 
   private authStatusSub: Subscription;
   private errorStatusSub: Subscription;
@@ -22,12 +29,12 @@ export class SignUpComponent implements OnInit, OnDestroy {
   public accessTypes = [
     {
       label: 'Creator',
-      value: 'creator'
+      value: 'creator',
     },
     {
       label: 'User',
-      value: 'user'
-    }
+      value: 'user',
+    },
   ];
 
   isLoading: boolean = false;
@@ -35,20 +42,20 @@ export class SignUpComponent implements OnInit, OnDestroy {
   @ViewChild('modalEl', { static: false, read: HTMLElement }) modal;
 
   ngOnInit(): void {
-    this.authStatusSub = this.authService.getAuthStatusListener().subscribe(
-      authStatus => {
+    this.authStatusSub = this.authService
+      .getAuthStatusListener()
+      .subscribe((authStatus) => {
         this.isLoading = false;
-      }
-    );
-    this.errorStatusSub = this.authService.getErrorStatusListener().subscribe(
-      error => {
+      });
+    this.errorStatusSub = this.authService
+      .getErrorStatusListener()
+      .subscribe((error) => {
         this.authError = true;
         switch (error.errorMessage) {
           case 'User validation failed: email: Error, expected `email` to be unique':
-            this.authErrorMessage = 'Username already taken!'
+            this.authErrorMessage = 'Username already taken!';
         }
-      }
-    )
+      });
   }
 
   ngOnDestroy(): void {
@@ -60,7 +67,11 @@ export class SignUpComponent implements OnInit, OnDestroy {
       return;
     }
     this.isLoading = true;
-    this.authService.createUser(signUpForm.value.email, signUpForm.value.password, signUpForm.value.accessType, signUpForm.value.creatorId);
+    this.authService.createUser(
+      signUpForm.value.email,
+      signUpForm.value.password,
+      signUpForm.value.accessType,
+      signUpForm.value.creatorId
+    );
   }
-
 }

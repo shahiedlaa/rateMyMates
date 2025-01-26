@@ -13,3 +13,15 @@ input#player_rating {
   opacity: 1;
   cursor: not-allowed;
 }
+
+.gameweek_stats_main {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.gameweek_stats {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}

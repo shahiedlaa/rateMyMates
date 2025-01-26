@@ -1,5 +1,11 @@
 import { Component, EventEmitter, Input, Output, OnInit } from '@angular/core';
-import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import {
+  FormArray,
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { GameWeekService } from '../gameweek/gameweek-service';
 import { PostService } from '../../post-service';
 import { Subscription } from 'rxjs';
@@ -7,19 +13,34 @@ import { Subscription } from 'rxjs';
 @Component({
   selector: 'game-week-modal',
   templateUrl: './game-week-modal.component.html',
-  styleUrls: ['./game-week-modal.component.css']
+  styleUrls: ['./game-week-modal.component.css'],
 })
 export class GameWeekModalComponent implements OnInit {
-
   @Input('teamId') teamId;
   @Output() popUpEmitter = new EventEmitter<any>();
 
   public addPlayerMode: boolean = false;
 
-  constructor(private formBuilder: FormBuilder, private gameweekService: GameWeekService, private postService: PostService) {
+  constructor(
+    private formBuilder: FormBuilder,
+    private gameweekService: GameWeekService,
+    private postService: PostService
+  ) {
     this.gameWeekForm = this.formBuilder.group({
-      players: this.formBuilder.array([], { validators: [Validators.required] })
-    })
+      date: new FormControl(null, Validators.required),
+      opponent: new FormControl(null, Validators.required),
+      teamScore: new FormControl(null, [
+        Validators.required,
+        Validators.min(1),
+      ]),
+      opponentScore: new FormControl(null, [
+        Validators.required,
+        Validators.min(1),
+      ]),
+      players: this.formBuilder.array([], {
+        validators: [Validators.required],
+      }),
+    });
   }
 
   public subscription: Subscription;
@@ -33,21 +54,22 @@ export class GameWeekModalComponent implements OnInit {
       if (response !== null && response === 'addPlayers') {
         this.addPlayerMode = true;
         this.populateData();
-      }
-      else {
-        this.addPlayerMode = false
+      } else {
+        this.addPlayerMode = false;
         const players = this.gameWeekForm.get('players') as FormArray;
         players.clear();
       }
-    })
+    });
     this.gameweekService.getPlayers();
-    this.gameweekService.playersUpdate.subscribe(response => {
+    this.gameweekService.playersUpdate.subscribe((response) => {
       if (response) {
-        this.playersArray = response.filter(team => team.teamId === this.teamId);
+        this.playersArray = response.filter(
+          (team) => team.teamId === this.teamId
+        );
       }
-    })
+    });
     this.getGameweek();
-    this.postService.getCreatorId().subscribe(response => {
+    this.postService.getCreatorId().subscribe((response) => {
       if (response) {
         localStorage.setItem('creatorId', response);
       }
@@ -56,11 +78,15 @@ export class GameWeekModalComponent implements OnInit {
 
   getGameweek() {
     // this.gameweekService.getGameweek();
-    this.subscription = this.gameweekService.sendGameweek.subscribe((response) => {
-      if (response && response.length > 0) {
-        this.initialGameweek = response.filter(team => team.teamId === this.teamId);
+    this.subscription = this.gameweekService.sendGameweek.subscribe(
+      (response) => {
+        if (response && response.length > 0) {
+          this.initialGameweek = response.filter(
+            (team) => team.teamId === this.teamId
+          );
+        }
       }
-    })
+    );
   }
 
   get players(): FormArray {
@@ -68,16 +94,22 @@ export class GameWeekModalComponent implements OnInit {
   }
 
   newPlayer(data?: any): FormGroup {
-    data = data || { name: null, rating: null }
+    data = data || { name: null, rating: null };
     return this.formBuilder.group({
       // player: data.name ? data.name : 'New Player',
       // rating: data.rating ? data.rating : null,
-      player: new FormControl(data.name ? data.name : 'New Player', [Validators.required]),
-      rating: new FormControl(data.rating ? data.rating : null, [Validators.min(1),Validators.max(10)])
+      player: new FormControl(data.name ? data.name : 'New Player', [
+        Validators.required,
+      ]),
+      rating: new FormControl(data.rating ? data.rating : null, [
+        Validators.min(1),
+        Validators.max(10),
+      ]),
     });
   }
 
   addPlayer() {
+    console.log('here');
     this.players.push(this.newPlayer());
   }
 
@@ -86,17 +118,17 @@ export class GameWeekModalComponent implements OnInit {
   }
 
   populateData() {
-    this.gameweekService.playersUpdate.subscribe(data => {
+    this.gameweekService.playersUpdate.subscribe((data) => {
       if (data) {
-        let teamPlayers = data?.filter(team => team.teamId === this.teamId);
+        let teamPlayers = data?.filter((team) => team.teamId === this.teamId);
         let playerData = teamPlayers[0]?.players;
         const players = this.gameWeekForm.get('players') as FormArray;
         players.clear();
-        playerData?.forEach(b => {
+        playerData?.forEach((b) => {
           const data = {
             name: b,
-            rating: null
-          }
+            rating: null,
+          };
           players.push(this.newPlayer(data));
         });
       }
@@ -104,42 +136,52 @@ export class GameWeekModalComponent implements OnInit {
   }
 
   onSubmit() {
-    let data = this.gameWeekForm.value;
+    let data = {
+      players: this.gameWeekForm.get('players').value,
+    };
+
     let playersArray = [];
     let duplicates = [];
+    const date = this.gameWeekForm.get('date').value;
+    const opponent = this.gameWeekForm.get('opponent').value;
+    const teamScore = this.gameWeekForm.get('teamScore').value;
+    const opponentScore = this.gameWeekForm.get('opponentScore').value;
 
     if (this.addPlayerMode) {
-      Object.keys(data).forEach(key => {
-        data[key].forEach(element =>
-          playersArray.push(element['player'])
-        );
+      Object.keys(data).forEach((key) => {
+        data[key].forEach((element) => playersArray.push(element['player']));
       });
 
-      let playersArrayLoweredCase = playersArray.map((item:string)=> item.toLowerCase());
-      duplicates = playersArrayLoweredCase.filter((item, index) => playersArrayLoweredCase.indexOf(item) !== index);
+      let playersArrayLoweredCase = playersArray.map((item: string) =>
+        item.toLowerCase()
+      );
+      duplicates = playersArrayLoweredCase.filter(
+        (item, index) => playersArrayLoweredCase.indexOf(item) !== index
+      );
 
-      if(duplicates.length > 0){
+      if (duplicates.length > 0) {
         this.popUpEmitter.emit(duplicates);
         return;
       }
 
       this.gameweekService.playersUpdate.subscribe((response) => {
-        let teamExist = response?.filter(team => team.teamId === this.teamId);
+        let teamExist = response?.filter((team) => team.teamId === this.teamId);
         if (teamExist.length !== 0) {
           let objectId = teamExist[0]._id;
-          this.gameweekService.updatePlayers(this.teamId, objectId, playersArray);
-        }
-        else {
+          this.gameweekService.updatePlayers(
+            this.teamId,
+            objectId,
+            playersArray
+          );
+        } else {
           this.gameweekService.addPlayersArray(this.teamId, playersArray);
         }
-      })
-    }
-    else {
+      });
+    } else {
+      console.log(data);
 
-      Object.keys(data).forEach(key => {
-        data[key].forEach(element =>
-          playersArray.push(element)
-        );
+      Object.keys(data).forEach((key) => {
+        data[key].forEach((element) => playersArray.push(element));
       });
 
       const creatorId = localStorage.getItem('creatorId');
@@ -147,7 +189,7 @@ export class GameWeekModalComponent implements OnInit {
       for (let i = 0; i < playersArray.length; i++) {
         let ratingFormat = {
           ratedBy: creatorId,
-          rating: playersArray[i].rating
+          rating: playersArray[i].rating,
         };
         playersArray[i].rating = ratingFormat;
       }
@@ -155,24 +197,34 @@ export class GameWeekModalComponent implements OnInit {
       const createFromScratch = this.initialGameweek.length == 0;
 
       if (createFromScratch) {
-        let newGameWeek =
-        {
+        let newGameWeek = {
           team_id: this.teamId,
-          weeksArray: [{
-            week: 1,
-            players: playersArray
-          }]
-        }
+          weeksArray: [
+            {
+              week: 1,
+              players: playersArray,
+              date: date,
+              opponent: opponent,
+              teamScore: teamScore,
+              opponentScore: opponentScore,
+            },
+          ],
+        };
+        console.log(newGameWeek);
+
         this.gameweekService.addGameWeek(newGameWeek);
-      }
-      else {
+      } else {
         const copiedArray = Array.from(this.initialGameweek);
 
         let latestWeekNumber = copiedArray[0]['weeksArray']?.slice(-1)[0].week;
 
         let gameWeek = {
           week: latestWeekNumber + 1,
-          players: playersArray
+          players: playersArray,
+          date: date,
+          opponent: opponent,
+          teamScore: teamScore,
+          opponentScore: opponentScore,
         };
 
         this.initialGameweek[0].weeksArray.push(gameWeek);
@@ -181,15 +233,16 @@ export class GameWeekModalComponent implements OnInit {
     }
 
     this.gameweekService.getPlayers();
-    this.gameweekService.playersUpdate.subscribe(response => {
+    this.gameweekService.playersUpdate.subscribe((response) => {
       if (response) {
-        this.playersArray = response.filter(team => team.teamId === this.teamId);
+        this.playersArray = response.filter(
+          (team) => team.teamId === this.teamId
+        );
       }
-    })
+    });
   }
 
   ngOnDestroy() {
     this.subscription.unsubscribe();
   }
-
 }

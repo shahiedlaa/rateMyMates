@@ -127,10 +127,7 @@ exports.getGameweek = (req, res, next) => {
 };
 
 exports.addSubsequentGameweek = (req, res, next) => {
-  const gameweek = new Gameweek({
-    teamId: req.body.teamId,
-    weeksArray: req.body.weeksArray,
-  });
+  console.log(req.body);
 
   Gameweek.updateOne(
     { teamId: req.params.teamId },
@@ -182,9 +179,19 @@ exports.updatePlayers = (req, res, next) => {
 };
 
 exports.editGameweek = (req, res, next) => {
+  console.log(req.body);
+
   Gameweek.updateOne(
     { teamId: req.body.teamId, "weeksArray.week": req.params.weekNumber },
-    { $set: { "weeksArray.$.players": req.body.players } }
+    {
+      $set: {
+        "weeksArray.$.players": req.body.players,
+        "weeksArray.$.date": req.body.date,
+        "weeksArray.$.opponent": req.body.opponent,
+        "weeksArray.$.teamScore": req.body.teamScore,
+        "weeksArray.$.opponentScore": req.body.opponentScore,
+      },
+    }
   )
     .then((result) => {
       if (result.matchedCount > 0) {
