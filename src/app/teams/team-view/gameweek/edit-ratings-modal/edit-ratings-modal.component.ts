@@ -86,7 +86,7 @@ export class EditRatingsModalComponent implements OnInit {
     return new FormGroup({
       player: new FormControl({
         value: data.name,
-        disabled: this.accessType !== 'admin',
+        disabled: this.accessType !== 'admin' && this.accessType !== 'creator',
       }),
       rating: new FormControl(data.rating, [
         Validators.min(1),
@@ -131,7 +131,7 @@ export class EditRatingsModalComponent implements OnInit {
       this.gameWeekForm.get('teamScore').patchValue(data.teamScore);
       this.gameWeekForm.get('opponentScore').patchValue(data.opponentScore);
 
-      if (this.accessType !== 'admin') {
+      if (this.accessType !== 'admin' && this.accessType !== 'creator') {
         this.gameWeekForm.get('date').disable();
         this.gameWeekForm.get('opponent').disable();
         this.gameWeekForm.get('teamScore').disable();
@@ -158,7 +158,9 @@ export class EditRatingsModalComponent implements OnInit {
     });
 
     const creatorId = localStorage.getItem(
-      this.accessType === 'admin' ? 'creatorId' : 'userId'
+      this.accessType === 'admin' || this.accessType === 'creator'
+        ? 'creatorId'
+        : 'userId'
     );
 
     const startFromScratch = this.playersArrayClone.length === 0;

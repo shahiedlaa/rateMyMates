@@ -53,6 +53,15 @@ export class GameWeekModalComponent implements OnInit {
     this.postService.formEmiiter.subscribe((response) => {
       if (response !== null && response === 'addPlayers') {
         this.addPlayerMode = true;
+        this.gameWeekForm.get('date').clearValidators();
+        this.gameWeekForm.get('opponent').clearValidators();
+        this.gameWeekForm.get('teamScore').clearValidators();
+        this.gameWeekForm.get('opponentScore').clearValidators();
+
+        this.gameWeekForm.get('date').updateValueAndValidity();
+        this.gameWeekForm.get('opponent').updateValueAndValidity();
+        this.gameWeekForm.get('teamScore').updateValueAndValidity();
+        this.gameWeekForm.get('opponentScore').updateValueAndValidity();
         this.populateData();
       } else {
         this.addPlayerMode = false;
@@ -166,7 +175,9 @@ export class GameWeekModalComponent implements OnInit {
 
       this.gameweekService.playersUpdate.subscribe((response) => {
         let teamExist = response?.filter((team) => team.teamId === this.teamId);
+        console.log(teamExist);
         if (teamExist.length !== 0) {
+          console.log('here');
           let objectId = teamExist[0]._id;
           this.gameweekService.updatePlayers(
             this.teamId,
@@ -178,8 +189,6 @@ export class GameWeekModalComponent implements OnInit {
         }
       });
     } else {
-      console.log(data);
-
       Object.keys(data).forEach((key) => {
         data[key].forEach((element) => playersArray.push(element));
       });

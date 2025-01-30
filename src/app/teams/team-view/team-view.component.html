@@ -1,92 +1,249 @@
-<div class="mb-4 border-b border-gray-200 dark:border-gray-700" style="margin: 0 auto; width: 12.3rem;">
-  <ul class="flex flex-wrap -mb-px text-sm font-medium text-center" id="default-tab" data-tabs-toggle="#default-tab-content" role="tablist">
-      <li class="me-2" role="presentation">
-          <button class="inline-block p-4 border-b-2 rounded-t-lg" id="main-tab" data-tabs-target="#main" type="button" role="tab" aria-controls="main" aria-selected="false">Main</button>
-      </li>
-      <li class="me-2" role="presentation">
-          <button (click)="dashboardTab()" class="inline-block p-4 border-b-2 rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300" id="dashboard-tab" data-tabs-target="#dashboard" type="button" role="tab" aria-controls="dashboard" aria-selected="false">Dashboard</button>
-      </li>
+<div
+  class="mb-4 border-b border-gray-200 dark:border-gray-700"
+  style="margin: 0 auto; width: 12.3rem"
+>
+  <ul
+    class="flex flex-wrap -mb-px text-sm font-medium text-center"
+    id="default-tab"
+    data-tabs-toggle="#default-tab-content"
+    role="tablist"
+  >
+    <li class="me-2" role="presentation">
+      <button
+        class="inline-block p-4 border-b-2 rounded-t-lg"
+        id="main-tab"
+        data-tabs-target="#main"
+        type="button"
+        role="tab"
+        aria-controls="main"
+        aria-selected="false"
+      >
+        Main
+      </button>
+    </li>
+    <li class="me-2" role="presentation">
+      <button
+        (click)="dashboardTab()"
+        class="inline-block p-4 border-b-2 rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300"
+        id="dashboard-tab"
+        data-tabs-target="#dashboard"
+        type="button"
+        role="tab"
+        aria-controls="dashboard"
+        aria-selected="false"
+      >
+        Dashboard
+      </button>
+    </li>
   </ul>
 </div>
 <div id="default-tab-content">
-  <div class="hidden p-4 rounded-lg bg-gray-50 dark:bg-gray-800" id="main" role="tabpanel" aria-labelledby="main-tab">
+  <div
+    class="hidden p-4 rounded-lg bg-gray-50 dark:bg-gray-800"
+    id="main"
+    role="tabpanel"
+    aria-labelledby="main-tab"
+  >
     <div class="content mb-6">
       <div
-        class="w-full md:w-11/12 team-details flex flex-col-reverse md:flex-row p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+        class="w-full md:w-11/12 team-details flex flex-col-reverse md:flex-row p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700"
+      >
         <div class="team-info">
-          <h5 class="mb-2 text:lg md:text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Team Name</h5>
-          <h3 class="mb-2 text:base md:text-xl font-medium tracking-tight text-blue-700 dark:text-white">{{post?.title}}</h3>
-          <h5 class="mb-2 text:lg md:text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Team Description</h5>
-          <h3 class="mb-2 text:base md:text-xl font-medium tracking-tight text-blue-700 dark:text-white">{{post?.content}}</h3>
-          <h5 class="mb-2 text:lg md:text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Players Available</h5>
-          <ol class="flex flex-wrap text-gray-900 dark:text-white list-disc list-inside"
-            *ngFor="let item of playersArray; index as i">
+          <h5
+            class="mb-2 text:lg md:text-2xl font-bold tracking-tight text-gray-900 dark:text-white"
+          >
+            Team Name
+          </h5>
+          <h3
+            class="mb-2 text:base md:text-xl font-medium tracking-tight text-blue-700 dark:text-white"
+          >
+            {{ post?.title }}
+          </h3>
+          <h5
+            class="mb-2 text:lg md:text-2xl font-bold tracking-tight text-gray-900 dark:text-white"
+          >
+            Team Description
+          </h5>
+          <h3
+            class="mb-2 text:base md:text-xl font-medium tracking-tight text-blue-700 dark:text-white"
+          >
+            {{ post?.content }}
+          </h3>
+          <h5
+            class="mb-2 text:lg md:text-2xl font-bold tracking-tight text-gray-900 dark:text-white"
+          >
+            Players Available
+          </h5>
+          <ol
+            class="flex flex-wrap text-gray-900 dark:text-white list-disc list-inside"
+            *ngFor="let item of playersArray; index as i"
+          >
             <li *ngFor="let player of item.players">
-              <span href="#" class="me-4 hover:underline md:me-6 list-players">{{player}}</span>
+              <span
+                href="#"
+                class="me-4 hover:underline md:me-6 list-players"
+                >{{ player }}</span
+              >
             </li>
           </ol>
           <h3 *ngIf="playersArray.length === 0">Players not added yet!</h3>
           <div class="team-options mt-5">
             <div class="inline-flex rounded-md shadow-sm" role="group">
-              <button type="button" [routerLink]="['/edit', postId]" [disabled]="accessType !== 'admin'"
-                class="inline-flex items-center p-1 text-xs md:p-3 md:text-sm font-medium text-white bg-green-500 rounded-s-lg hover:bg-gray-700 focus:z-10 focus:ring-2 focus:ring-gray-500 focus:bg-gray-900 focus:text-white dark:border-white dark:text-white dark:hover:text-white dark:hover:bg-gray-700 dark:focus:bg-gray-700">
-                <svg class="w-4 h-4 me-2" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <button
+                type="button"
+                [routerLink]="['/edit', postId]"
+                [disabled]="accessType === 'user'"
+                class="inline-flex items-center p-1 text-xs md:p-3 md:text-sm font-medium text-white bg-green-500 rounded-s-lg hover:bg-gray-700 focus:z-10 focus:ring-2 focus:ring-gray-500 focus:bg-gray-900 focus:text-white dark:border-white dark:text-white dark:hover:text-white dark:hover:bg-gray-700 dark:focus:bg-gray-700"
+              >
+                <svg
+                  class="w-4 h-4 me-2"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
                   <g id="SVGRepo_bgCarrier" stroke-width="0" />
-                  <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round" />
+                  <g
+                    id="SVGRepo_tracerCarrier"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
                   <g id="SVGRepo_iconCarrier">
                     <path
                       d="M21.2799 6.40005L11.7399 15.94C10.7899 16.89 7.96987 17.33 7.33987 16.7C6.70987 16.07 7.13987 13.25 8.08987 12.3L17.6399 2.75002C17.8754 2.49308 18.1605 2.28654 18.4781 2.14284C18.7956 1.99914 19.139 1.92124 19.4875 1.9139C19.8359 1.90657 20.1823 1.96991 20.5056 2.10012C20.8289 2.23033 21.1225 2.42473 21.3686 2.67153C21.6147 2.91833 21.8083 3.21243 21.9376 3.53609C22.0669 3.85976 22.1294 4.20626 22.1211 4.55471C22.1128 4.90316 22.0339 5.24635 21.8894 5.5635C21.7448 5.88065 21.5375 6.16524 21.2799 6.40005V6.40005Z"
-                      stroke="#ffffff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                      stroke="#ffffff"
+                      stroke-width="1.5"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
                     <path
                       d="M11 4H6C4.93913 4 3.92178 4.42142 3.17163 5.17157C2.42149 5.92172 2 6.93913 2 8V18C2 19.0609 2.42149 20.0783 3.17163 20.8284C3.92178 21.5786 4.93913 22 6 22H17C19.21 22 20 20.2 20 18V13"
-                      stroke="#ffffff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                      stroke="#ffffff"
+                      stroke-width="1.5"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
                   </g>
                 </svg>
                 Edit Team
               </button>
-              <button type="button" data-modal-target="confirm-modal" data-modal-toggle="confirm-modal" [disabled]="accessType !== 'admin'" (click)="popUpAction('delete')"
-                class="inline-flex items-center p-1 text-xs md:p-3 md:text-sm font-medium text-white bg-red-500  hover:bg-gray-700 focus:z-10 focus:ring-2 focus:ring-gray-500 focus:bg-gray-900 focus:text-white dark:border-white dark:text-white dark:hover:text-white dark:hover:bg-gray-700 dark:focus:bg-gray-700">
-                <svg class="w-4 h-4 me-2" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <button
+                type="button"
+                data-modal-target="confirm-modal"
+                data-modal-toggle="confirm-modal"
+                [disabled]="accessType === 'user'"
+                (click)="popUpAction('delete')"
+                class="inline-flex items-center p-1 text-xs md:p-3 md:text-sm font-medium text-white bg-red-500 hover:bg-gray-700 focus:z-10 focus:ring-2 focus:ring-gray-500 focus:bg-gray-900 focus:text-white dark:border-white dark:text-white dark:hover:text-white dark:hover:bg-gray-700 dark:focus:bg-gray-700"
+              >
+                <svg
+                  class="w-4 h-4 me-2"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
                   <g id="SVGRepo_bgCarrier" stroke-width="0" />
-                  <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round" />
+                  <g
+                    id="SVGRepo_tracerCarrier"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
                   <g id="SVGRepo_iconCarrier">
-                    <path d="M4 7H20" stroke="#ffffff" stroke-width="1.272" stroke-linecap="round"
-                      stroke-linejoin="round" />
+                    <path
+                      d="M4 7H20"
+                      stroke="#ffffff"
+                      stroke-width="1.272"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
                     <path
                       d="M6 10L7.70141 19.3578C7.87432 20.3088 8.70258 21 9.66915 21H14.3308C15.2974 21 16.1257 20.3087 16.2986 19.3578L18 10"
-                      stroke="#ffffff" stroke-width="1.272" stroke-linecap="round" stroke-linejoin="round" />
-                    <path d="M9 5C9 3.89543 9.89543 3 11 3H13C14.1046 3 15 3.89543 15 5V7H9V5Z" stroke="#ffffff"
-                      stroke-width="1.272" stroke-linecap="round" stroke-linejoin="round" />
+                      stroke="#ffffff"
+                      stroke-width="1.272"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                    <path
+                      d="M9 5C9 3.89543 9.89543 3 11 3H13C14.1046 3 15 3.89543 15 5V7H9V5Z"
+                      stroke="#ffffff"
+                      stroke-width="1.272"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
                   </g>
                 </svg>
                 Delete Team
               </button>
-              <button type="button" data-modal-target="default-modal" data-modal-toggle="default-modal"
-                [disabled]="accessType !== 'admin'" (click)="emitForm('addPlayers')"
-                class="inline-flex items-center p-1 text-xs md:p-3 md:text-sm font-medium text-white bg-purple-500  hover:bg-gray-700 focus:z-10 focus:ring-2 focus:ring-gray-500 focus:bg-gray-900 focus:text-white dark:border-white dark:text-white dark:hover:text-white dark:hover:bg-gray-700 dark:focus:bg-gray-700">
-                <svg class="w-4 h-4 me-2" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <button
+                type="button"
+                data-modal-target="default-modal"
+                data-modal-toggle="default-modal"
+                [disabled]="accessType === 'user'"
+                (click)="emitForm('addPlayers')"
+                class="inline-flex items-center p-1 text-xs md:p-3 md:text-sm font-medium text-white bg-purple-500 hover:bg-gray-700 focus:z-10 focus:ring-2 focus:ring-gray-500 focus:bg-gray-900 focus:text-white dark:border-white dark:text-white dark:hover:text-white dark:hover:bg-gray-700 dark:focus:bg-gray-700"
+              >
+                <svg
+                  class="w-4 h-4 me-2"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
                   <g id="SVGRepo_bgCarrier" stroke-width="0" />
-                  <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round" />
+                  <g
+                    id="SVGRepo_tracerCarrier"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
                   <g id="SVGRepo_iconCarrier">
-                    <circle cx="12" cy="12" r="10" stroke="#ffffff" stroke-width="2.4" />
-                    <path fill-rule="evenodd" clip-rule="evenodd"
+                    <circle
+                      cx="12"
+                      cy="12"
+                      r="10"
+                      stroke="#ffffff"
+                      stroke-width="2.4"
+                    />
+                    <path
+                      fill-rule="evenodd"
+                      clip-rule="evenodd"
                       d="M13.0001 7C13.0001 6.44771 12.5524 6 12.0001 6C11.4479 6 11.0001 6.44771 11.0001 7V11H7C6.44771 11 6 11.4477 6 12C6 12.5523 6.44772 13 7 13H11.0001V17C11.0001 17.5523 11.4479 18 12.0001 18C12.5524 18 13.0001 17.5523 13.0001 17V13H17C17.5523 13 18 12.5523 18 12C18 11.4477 17.5523 11 17 11H13.0001V7Z"
-                      fill="#ffffff" />
+                      fill="#ffffff"
+                    />
                   </g>
                 </svg>
                 Edit Players
               </button>
-              <button type="button" data-modal-target="default-modal" data-modal-toggle="default-modal"
-                [disabled]="accessType !== 'admin'" (click)="emitForm('addGameweek')"
-                class="inline-flex items-center p-1 text-xs md:p-3 md:text-sm font-medium text-white bg-blue-600 rounded-e-lg hover:bg-gray-700 focus:z-10 focus:ring-2 focus:ring-gray-500 focus:bg-gray-900 focus:text-white dark:border-white dark:text-white dark:hover:text-white dark:hover:bg-gray-700 dark:focus:bg-gray-700">
-                <svg class="w-4 h-4 me-2" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <button
+                type="button"
+                data-modal-target="default-modal"
+                data-modal-toggle="default-modal"
+                [disabled]="accessType === 'user'"
+                (click)="emitForm('addGameweek')"
+                class="inline-flex items-center p-1 text-xs md:p-3 md:text-sm font-medium text-white bg-blue-600 rounded-e-lg hover:bg-gray-700 focus:z-10 focus:ring-2 focus:ring-gray-500 focus:bg-gray-900 focus:text-white dark:border-white dark:text-white dark:hover:text-white dark:hover:bg-gray-700 dark:focus:bg-gray-700"
+              >
+                <svg
+                  class="w-4 h-4 me-2"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
                   <g id="SVGRepo_bgCarrier" stroke-width="0" />
-                  <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round" />
+                  <g
+                    id="SVGRepo_tracerCarrier"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
                   <g id="SVGRepo_iconCarrier">
-                    <circle cx="12" cy="12" r="10" stroke="#ffffff" stroke-width="2.4" />
-                    <path fill-rule="evenodd" clip-rule="evenodd"
+                    <circle
+                      cx="12"
+                      cy="12"
+                      r="10"
+                      stroke="#ffffff"
+                      stroke-width="2.4"
+                    />
+                    <path
+                      fill-rule="evenodd"
+                      clip-rule="evenodd"
                       d="M13.0001 7C13.0001 6.44771 12.5524 6 12.0001 6C11.4479 6 11.0001 6.44771 11.0001 7V11H7C6.44771 11 6 11.4477 6 12C6 12.5523 6.44772 13 7 13H11.0001V17C11.0001 17.5523 11.4479 18 12.0001 18C12.5524 18 13.0001 17.5523 13.0001 17V13H17C17.5523 13 18 12.5523 18 12C18 11.4477 17.5523 11 17 11H13.0001V7Z"
-                      fill="#ffffff" />
+                      fill="#ffffff"
+                    />
                   </g>
                 </svg>
                 Add Gameweek
@@ -95,60 +252,96 @@
           </div>
         </div>
         <div class="team-image">
-          <img [src]="post?.imagePath" style="margin: 0 auto;" alt="team's logo or image">
+          <img
+            [src]="post?.imagePath"
+            style="margin: 0 auto"
+            alt="team's logo or image"
+          />
         </div>
       </div>
     </div>
 
-
     <div class="content">
-      <div class="w-full md:w-11/12 p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700"
-        *ngFor="let item of gameWeeks, index as i">
-        <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Match Days</h5>
-        <h3 *ngIf="item.weeksArray.length === 0" class="mb-2 text-l font-bold tracking-tight text-gray-900 dark:text-white">
-          Let's
-          add a gameweek!
+      <div
+        class="w-full md:w-11/12 p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700"
+        *ngFor="let item of gameWeeks; index as i"
+      >
+        <h5
+          class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white"
+        >
+          Match Days
+        </h5>
+        <h3
+          *ngIf="item.weeksArray.length === 0"
+          class="mb-2 text-l font-bold tracking-tight text-gray-900 dark:text-white"
+        >
+          Let's add a gameweek!
         </h3>
-        <a [routerLink]="['gameweek', week.week]" *ngFor="let week of item.weeksArray, index as i"
+        <a
+          [routerLink]="['gameweek', week.week]"
+          *ngFor="let week of item.weeksArray; index as i"
           (click)="clickGameweek(i)"
-          class="block w-full p-4 mb-3 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
-          <h5 class="mb-2 text-1xl font-semibold tracking-tight text-gray-900 dark:text-white">Gameweek {{week.week}}</h5>
+          class="block w-full p-4 mb-3 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700"
+        >
+          <h5
+            class="mb-2 text-1xl font-semibold tracking-tight text-gray-900 dark:text-white"
+          >
+            Gameweek {{ week.week }}
+          </h5>
         </a>
       </div>
     </div>
 
     <div class="content" *ngIf="gameWeeks.length === 0">
-      <div class="w-full md:w-11/12 p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-        <h3 class="mb-2 text-l font-bold tracking-tight text-gray-900 dark:text-white">
-          Let's
-          add a gameweek!
+      <div
+        class="w-full md:w-11/12 p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700"
+      >
+        <h3
+          class="mb-2 text-l font-bold tracking-tight text-gray-900 dark:text-white"
+        >
+          Let's add a gameweek!
         </h3>
       </div>
     </div>
 
+    <game-week-modal
+      id="default-modal"
+      tabindex="-1"
+      aria-hidden="true"
+      [teamId]="postId"
+      (popUpEmitter)="openNotification($event)"
+      class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center md:inset-0 h-[calc(100%-1rem)] max-h-full"
+    ></game-week-modal>
 
-    <game-week-modal id="default-modal" tabindex="-1" aria-hidden="true" [teamId]="postId" (popUpEmitter)="openNotification($event)"
-      class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center  md:inset-0 h-[calc(100%-1rem)] max-h-full"></game-week-modal>
-
-    <confirm-popup [action]="actionForPopUp" [duplicates]="duplicates" [postId]="postId"></confirm-popup>
+    <confirm-popup
+      [action]="actionForPopUp"
+      [duplicates]="duplicates"
+      [postId]="postId"
+    ></confirm-popup>
 
     <div class="content w-full md:w-11/12" *ngIf="hideGameweek">
       <router-outlet></router-outlet>
     </div>
 
-    <button id="pop-up" style="display: none;"  data-modal-target="confirm-modal" data-modal-toggle="confirm-modal" class="block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="button">
+    <button
+      id="pop-up"
+      style="display: none"
+      data-modal-target="confirm-modal"
+      data-modal-toggle="confirm-modal"
+      class="block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+      type="button"
+    >
       Toggle modal
-      </button>
-
+    </button>
   </div>
-
 
   <div id="dashboard" role="tabpanel" aria-labelledby="dashboard-tab">
     <div class="content mt-4">
-      <table-ranking [tableData]='gameWeeks' [teamId]="postId"></table-ranking>
+      <table-ranking
+        style="display: flex; justify-content: center"
+        [tableData]="gameWeeks"
+        [teamId]="postId"
+      ></table-ranking>
     </div>
-
   </div>
 </div>
-
-

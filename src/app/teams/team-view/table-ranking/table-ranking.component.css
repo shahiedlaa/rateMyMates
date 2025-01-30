@@ -4,16 +4,35 @@ a {
 
 .loader {
   width: 45px;
-  aspect-ratio: .75;
+  aspect-ratio: 0.75;
   --c: no-repeat linear-gradient(#1f19cd 0 0);
-  background:
-    var(--c) 0%   50%,
-    var(--c) 50%  50%,
-    var(--c) 100% 50%;
+  background: var(--c) 0% 50%, var(--c) 50% 50%, var(--c) 100% 50%;
   background-size: 20% 60%;
   animation: l9 1s infinite;
 }
 @keyframes l9 {
-  33% {background-position: 0% 0%  ,50% 100%,100% 0%  }
-  66% {background-position: 0% 100%,50% 0%  ,100% 100%}
+  33% {
+    background-position: 0% 0%, 50% 100%, 100% 0%;
+  }
+  66% {
+    background-position: 0% 100%, 50% 0%, 100% 100%;
+  }
+}
+
+.game_win {
+  background-color: rgb(217, 245, 188);
+  border-radius: 5px;
+  padding: 3px;
+}
+
+.game_lose {
+  background-color: rgb(234, 183, 183);
+  border-radius: 5px;
+  padding: 3px;
+}
+
+.game_draw {
+  background-color: rgb(191, 225, 251);
+  border-radius: 5px;
+  padding: 3px;
 }

@@ -1,4 +1,4 @@
-input[type='file'] {
+input[type="file"] {
   visibility: hidden;
 }
 
@@ -15,4 +15,11 @@ input[type='file'] {
   background-color: dimgrey;
   color: white;
   opacity: 1;
+}
+
+*:disabled {
+  background-color: dimgrey;
+  color: white;
+  opacity: 1;
+  cursor: not-allowed;
 }

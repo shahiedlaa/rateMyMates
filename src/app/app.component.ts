@@ -7,24 +7,23 @@ import { Subscription } from 'rxjs';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  styleUrls: ['./app.component.css'],
 })
 export class AppComponent implements OnInit {
-  constructor(private authService: AuthService) { }
+  constructor(private authService: AuthService) {}
 
   title = 'rateMyMates';
-  public userIsAuthenticated:boolean = false;
+  public userIsAuthenticated: boolean = false;
   public authListenerSubs: Subscription;
-
 
   ngOnInit(): void {
     initFlowbite();
     this.authService.onAutoAuthUser();
     this.userIsAuthenticated = this.authService.getAuthentication();
-    this.authListenerSubs = this.authService.getAuthStatusListener()
-    .subscribe(isAuthenticated => {
-      this.userIsAuthenticated = isAuthenticated;
-    })
-    console.log(this.userIsAuthenticated);
+    this.authListenerSubs = this.authService
+      .getAuthStatusListener()
+      .subscribe((isAuthenticated) => {
+        this.userIsAuthenticated = isAuthenticated;
+      });
   }
 }
